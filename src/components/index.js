@@ -1,3 +1,5 @@
 import AuthInput from "./AuthInput";
+import RadioInput from "./RadioInput";
+import DateInput from "./DateInput"
 
-export { AuthInput };
+export { AuthInput, RadioInput, DateInput };
