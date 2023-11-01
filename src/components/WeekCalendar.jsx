@@ -10,9 +10,6 @@ const WeekCalendar = ({
   onSelectedFutureDateClick,
   onSelectedDateClick,
 }) => {
-  console.log(123, startDayForDayMode)
-  console.log(456, selectedDate)
-
   return (
     <div className={`grid grid-cols-7 w-full h-full ${isHidden}`}>
         <div className='col-span-1 border-4 border-r-0 border-gray-600 rounded-l-lg grid grid-rows-[5%_repeat(7,minmax(0,1fr))_5%]'>

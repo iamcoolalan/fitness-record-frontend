@@ -228,6 +228,7 @@ const HomePage = () => {
           />
         </div>
       </div>
+      
       <FullCalender
         isHidden='hidden'
         startDate={startDate}
@@ -235,7 +236,7 @@ const HomePage = () => {
         today={today}
       ></FullCalender>
       <WeekCalendar
-
+        isHidden='hidden'
         startDayForDayMode= {startDayForDayMode}
         selectedDate= {selectedDate}
         onSelectedPreviousDateClick = {handleSelectedPreviousDateClick}
