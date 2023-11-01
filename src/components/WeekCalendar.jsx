@@ -54,23 +54,23 @@ const WeekCalendar = ({
               <h2 className='text-3xl'>{`${dayHelpers.toDateString(selectedDate)} Records`}</h2>
             </div>
             <div className='row-span-1 border-t-2 border-gray-500 grid grid-rows-5 p-1 gap-2'>
-              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-black cursor-pointer'>
+              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
                 <h2 className='text-2xl'>Leg Day</h2>
                 <h2 className='text-2xl'>1h35min</h2>
               </div>
-              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-black cursor-pointer'>
+              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
                 <h2 className='text-2xl'>Leg Day</h2>
                 <h2 className='text-2xl'>1h35min</h2>
               </div>
-              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-black cursor-pointer'>
+              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
                 <h2 className='text-2xl'>Leg Day</h2>
                 <h2 className='text-2xl'>1h35min</h2>
               </div>
-              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-black cursor-pointer'>
+              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
                 <h2 className='text-2xl'>Leg Day</h2>
                 <h2 className='text-2xl'>1h35min</h2>
               </div>
-              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-black cursor-pointer'>
+              <div className='flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
                 <h2 className='text-2xl'>Leg Day</h2>
                 <h2 className='text-2xl'>1h35min</h2>
               </div>

@@ -9,7 +9,7 @@ const dummyData = [
 const SignUpPage = () => {
   return (
     <div className='grid grid-cols-12 h-screen mx-auto font-mono'>
-        <div className='col-span-4 bg-black'>
+        <div className='col-span-4 bg-zinc-800'>
         </div>
         <div className='col-span-8 relative top-[5%]'>
           <div className='flex flex-col justify-center items-center gap-5 w-[60%]'>
@@ -36,7 +36,7 @@ const SignUpPage = () => {
             </div>
             <Link className='w-4/5' to="/login">
                 <p className='text-2xl border-4 border-zinc-800 hover:bg-yellow-200 rounded text-center'>Login</p>
-             </Link>
+            </Link>
           </div>
         </div>
     </div>

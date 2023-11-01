@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const MainLayout = ({ children }) => {
   return (
     <div className='grid grid-cols-12 h-screen font-mono'>
-      <div className='col-span-3 bg-black text-white relative'>
+      <div className='col-span-3 bg-zinc-800 text-white relative'>
         <div className='flex flex-col justify-center items-center gap-24 mt-[10%]'>
           <Link className='text-3xl hover:text-yellow-200 hover:border-2 hover:border-yellow-200 hover:ring-4 p-2 w-[95%] hover:ring-orange-300 hover:ring-offset-2 hover:ring-offset-white hover:rounded text-center' to="/homepage">Fitness Record</Link>
           <div className='flex flex-col justify-center items-center gap-5 w-full'>

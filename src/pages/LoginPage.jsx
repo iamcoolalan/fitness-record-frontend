@@ -26,7 +26,7 @@ const LoginPage = () => {
              </Link>
           </div>
         </div>
-        <div className='col-span-8 bg-black text-white relative'>
+        <div className='col-span-8 bg-zinc-800 text-white relative'>
           <img src={testImage} alt="" className='absolute bottom-[3%] right-[3%] w-[90%]' />
         </div>
     </div>
