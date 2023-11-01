@@ -3,8 +3,7 @@ import clsx from 'clsx'
 import addDays from 'date-fns/addDays'
 import subDays from 'date-fns/subDays'
 
-import FullCalender from '../components/FullCalendar.jsx'
-import WeekCalendar from '../components/WeekCalendar.jsx'
+import { FullCalender, WeekCalendar, RecordListMode } from '../components'
 
 const HomePage = () => {
   const today = new Date()
@@ -23,6 +22,7 @@ const HomePage = () => {
   const [yearInputValue, setYearInputValue] = useState(year)
   const [selectedDate, setSelectedDate] = useState(new Date())
   const [startDayForDayMode, setStartDayForDayMode] = useState(startDayForDayModeInitialValue)
+  const [mode, setMode] = useState('FullCalender')
 
   function handleYearLeftClick() {
     setYear(year - 1)
@@ -141,6 +141,23 @@ const HomePage = () => {
     setSelectedDate(setDate)
   }
 
+  function handleChangeModeClick (mode) {
+    setMode(mode)
+  }
+
+  function handleFullCalendarClick (date) {
+    setSelectedDate(date)
+    setMode('WeekCalendar')
+  }
+
+  function handleTodayClick () {
+    const today = new Date()
+
+    setYear(today.getFullYear())
+    setMonth(today.getMonth() + 1)
+    setSelectedDate(today)
+  }
+
   useEffect(() => {
     function getCalendar (
     date,
@@ -177,9 +194,10 @@ const HomePage = () => {
   }, [selectedDate])
 
   return (
-    <div className='w-full h-full flex flex-col'>
-      <div>
-        <div className={clsx('flex gap-2', { "hidden": isYearEdit })}>
+    <div className='w-full h-full flex flex-col gap-1'>
+      <div className='grid grid-cols-7'>
+        <div className='col-span-4'>
+          <div className={clsx('flex gap-2', { "hidden": isYearEdit })}>
           <button 
             className='hover:bg-yellow-200'
             onClick={handleYearLeftClick}
@@ -191,107 +209,72 @@ const HomePage = () => {
           <button 
             className='hover:bg-yellow-200'
             onClick={handleYearRightClick}
-          >Right</button>
+            >Right</button>
+          </div>
+          <div className={clsx('text-5xl', { "hidden": !isYearEdit })}>
+            <input
+              type="text"
+              ref={yearInputRef}
+              onKeyDown={handleYearKeyDown}
+              onBlur={() => handleBlur(setYearInputValue, year, setIsYearEdit)}
+              onChange={(e) => handleOnChange(e, setYearInputValue)}
+              value={yearInputValue}
+            />
+          </div>
+          <div className={clsx('flex gap-2', { "hidden": isMonthEdit })}>
+            <button 
+              className='hover:bg-yellow-200'
+              onClick={handleMonthLeftClick}
+            >Left</button>
+            <h3 
+              className='text-4xl'
+              onDoubleClick={() => handleDoubleClick(setIsMonthEdit, monthInputRef)}
+            >{ month }</h3>
+            <button 
+              className='hover:bg-yellow-200'
+              onClick={handleMonthRightClick}
+            >Right</button>
+          </div>
+          <div className={clsx('text-4xl', { "hidden": !isMonthEdit })}>
+            <input
+              type="text"
+              ref={monthInputRef}
+              onKeyDown={handleMonthKeyDown}
+              onBlur={() => handleBlur(setMonthInputValue, month, setIsMonthEdit)}
+              onChange={(e) => handleOnChange(e, setMonthInputValue)}
+              value={monthInputValue}
+            />
+          </div>
         </div>
-        <div className={clsx('text-5xl', { "hidden": !isYearEdit })}>
-          <input
-            type="text"
-            ref={yearInputRef}
-            onKeyDown={handleYearKeyDown}
-            onBlur={() => handleBlur(setYearInputValue, year, setIsYearEdit)}
-            onChange={(e) => handleOnChange(e, setYearInputValue)}
-            value={yearInputValue}
-          />
-        </div>
-        <div className={clsx('flex gap-2', { "hidden": isMonthEdit })}>
-          <button 
-            className='hover:bg-yellow-200'
-            onClick={handleMonthLeftClick}
-          >Left</button>
-          <h3 
-            className='text-4xl'
-            onDoubleClick={() => handleDoubleClick(setIsMonthEdit, monthInputRef)}
-          >{ month }</h3>
-          <button 
-            className='hover:bg-yellow-200'
-            onClick={handleMonthRightClick}
-          >Right</button>
-        </div>
-         <div className={clsx('text-4xl', { "hidden": !isMonthEdit })}>
-          <input
-            type="text"
-            ref={monthInputRef}
-            onKeyDown={handleMonthKeyDown}
-            onBlur={() => handleBlur(setMonthInputValue, month, setIsMonthEdit)}
-            onChange={(e) => handleOnChange(e, setMonthInputValue)}
-            value={monthInputValue}
-          />
-        </div>
-      </div>
-      <div className='grid grid-rows-[90%_10%] border-4 border-gray-600 rounded-lg h-full'>
-        <div className='row-span-1 grid grid-rows-5 gap-2 border-b-4 border-gray-600 p-1'>
-           <div className='flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
-            <div className='flex flex-col'>
-              <h2 className='text-2xl'>Leg Day</h2>
-              <h2 className='text-xl'>1h35min</h2>
-            </div>
-            <div>
-              <p className='text-2xl'>2023-11-01</p>
-            </div>
-          </div> 
-           <div className='flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
-            <div className='flex flex-col'>
-              <h2 className='text-2xl'>Leg Day</h2>
-              <h2 className='text-xl'>1h35min</h2>
-            </div>
-            <div>
-              <p className='text-2xl'>2023-11-01</p>
-            </div>
-          </div> 
-           <div className='flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
-            <div className='flex flex-col'>
-              <h2 className='text-2xl'>Leg Day</h2>
-              <h2 className='text-xl'>1h35min</h2>
-            </div>
-            <div>
-              <p className='text-2xl'>2023-11-01</p>
-            </div>
-          </div> 
-           <div className='flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
-            <div className='flex flex-col'>
-              <h2 className='text-2xl'>Leg Day</h2>
-              <h2 className='text-xl'>1h35min</h2>
-            </div>
-            <div>
-              <p className='text-2xl'>2023-11-01</p>
-            </div>
-          </div> 
-           <div className='flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
-            <div className='flex flex-col'>
-              <h2 className='text-2xl'>Leg Day</h2>
-              <h2 className='text-xl'>1h35min</h2>
-            </div>
-            <div>
-              <p className='text-2xl'>2023-11-01</p>
-            </div>
-          </div> 
-        </div>
-        <div className='row-span-1 flex flex-row justify-center items-center gap-2'>
-          <button className='border-2 border-gray-600 rounded p-0.5 text-lg hover:bg-yellow-200'>1</button>
-          <button className='border-2 border-gray-600 rounded p-0.5 text-lg hover:bg-yellow-200'>2</button>
-          <button className='border-2 border-gray-600 rounded p-0.5 text-lg hover:bg-yellow-200'>3</button>
-          <button className='border-2 border-gray-600 rounded p-0.5 text-lg hover:bg-yellow-200'>4</button>
-          <button className='border-2 border-gray-600 rounded p-0.5 text-lg hover:bg-yellow-200'>5</button>
+        <div className='col-span-3 flex flex-col justify-end items-end'>
+          <div className='flex flex-row w-full border-2 border-zinc-800 rounded-lg'>
+            <button className='border-r-2 border-zinc-800 rounded-l-lg  w-1/3 text-lg hover:bg-yellow-200'
+            onClick={() => handleChangeModeClick('FullCalender')}
+            >Month</button>
+            <button className='border-r-2 border-zinc-800 w-1/3 text-lg hover:bg-yellow-200'
+              onClick={() => handleChangeModeClick('WeekCalendar')}
+            >Week</button>
+            <button className='border-r-2 border-zinc-800 w-1/3 text-lg hover:bg-yellow-200'
+              onClick={() => handleChangeModeClick('List')}
+            >List</button>
+            <button className='rounded-r-lg w-1/3 text-lg bg-orange-200 hover:bg-yellow-200'
+              onClick={() => handleTodayClick()}
+            >Today</button>
+          </div>
         </div>
       </div>
+      <RecordListMode
+        mode={mode}
+      ></RecordListMode>
       <FullCalender
-        isHidden='hidden'
+        onClick={handleFullCalendarClick}
+        mode={mode}
         startDate={startDate}
         month={month}
         today={today}
       ></FullCalender>
       <WeekCalendar
-        isHidden='hidden'
+        mode={mode}
         startDayForDayMode= {startDayForDayMode}
         selectedDate= {selectedDate}
         onSelectedPreviousDateClick = {handleSelectedPreviousDateClick}

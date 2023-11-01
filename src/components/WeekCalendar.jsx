@@ -3,15 +3,17 @@ import clsx from "clsx"
 import dayHelpers from "../helpers/day"
 
 const WeekCalendar = ({
-  isHidden,
+  mode,
   startDayForDayMode,
   selectedDate,
   onSelectedPreviousDateClick,
   onSelectedFutureDateClick,
   onSelectedDateClick,
 }) => {
+  const isNotWeekCalendarMode = mode !== 'WeekCalendar'
+
   return (
-    <div className={`grid grid-cols-7 w-full h-full ${isHidden}`}>
+    <div className={clsx('grid grid-cols-7 w-full h-full', { "hidden": isNotWeekCalendarMode })}>
         <div className='col-span-1 border-4 border-r-0 border-gray-600 rounded-l-lg grid grid-rows-[5%_repeat(7,minmax(0,1fr))_5%]'>
           <button className='row-span-1 border-r-4 border-b-2 border-gray-600 rounded-tl bg-orange-300'
             onClick={() => onSelectedPreviousDateClick()}
@@ -25,7 +27,7 @@ const WeekCalendar = ({
 
             return (
             <div className='row-span-1 border-r-4 border-b-2 border-gray-600'>
-              <div className={clsx('flex flex-col justify-center items-center h-full hover:bg-yellow-200 hover:border-black cursor-pointer', { "bg-yellow-200": isSelectedDate, "text-gray-300 hover:text-gray-600": !isSelectedDate})}
+              <div className={clsx('flex flex-col justify-center items-center h-full hover:bg-yellow-200 hover:text-gray-600 hover:border-black cursor-pointer', { "bg-orange-200 text-zinc-900": isSelectedDate, "text-gray-300": !isSelectedDate})}
                 key={date}
                 onClick={() => onSelectedDateClick(date)}
               >

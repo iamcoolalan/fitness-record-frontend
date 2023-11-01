@@ -1,8 +1,12 @@
-import React from 'react'
+import clsx from "clsx"
 
-const RecordListMode = () => {
+const RecordListMode = ({
+  mode
+}) => {
+  const isNotListMode = mode !== 'List'
+
   return (
-    <div className='grid grid-rows-[90%_10%] border-4 border-gray-600 rounded-lg h-full'>
+    <div className={clsx('grid grid-rows-[90%_10%] border-4 border-gray-600 rounded-lg h-full', { "hidden" : isNotListMode })}>
         <div className='row-span-1 grid grid-rows-5 gap-2 border-b-4 border-gray-600 p-1'>
            <div className='flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer'>
             <div className='flex flex-col'>
