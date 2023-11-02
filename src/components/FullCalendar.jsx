@@ -1,6 +1,6 @@
 import clsx from "clsx"
 
-import dayHelpers from "../helpers/day"
+import { toDateString } from "../helpers/day"
 
 const FullCalender = ({
   onClick,
@@ -41,12 +41,12 @@ const FullCalender = ({
           date.setDate(date.getDate() + index)
 
           const isNotSelectedMonth = (date.getMonth() + 1) !== month
-          const isToday = dayHelpers.toDateString(date) === dayHelpers.toDateString(today)
+          const isToday = toDateString(date) === toDateString(today)
 
           return (
             <div 
               className={clsx('col-span-1 row-span-1 border-r-4 border-b-4 border-gray-600 cursor-pointer hover:bg-yellow-200', { "text-slate-400": isNotSelectedMonth, "bg-orange-200": isToday })}
-              key={dayHelpers.toDateString(date)}
+              key={toDateString(date)}
               onClick={() => onClick(date)}
             >
               <div className='pl-2 pt-1'>

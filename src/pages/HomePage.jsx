@@ -4,6 +4,7 @@ import addDays from 'date-fns/addDays'
 import subDays from 'date-fns/subDays'
 
 import { FullCalender, WeekCalendar, RecordListMode } from '../components'
+import { getMonthAbbreviation } from '../helpers/day'
 
 const HomePage = () => {
   const today = new Date()
@@ -229,7 +230,7 @@ const HomePage = () => {
             <h3 
               className='text-4xl'
               onDoubleClick={() => handleDoubleClick(setIsMonthEdit, monthInputRef)}
-            >{ month }</h3>
+            >{ getMonthAbbreviation(month) }</h3>
             <button 
               className='hover:bg-yellow-200'
               onClick={handleMonthRightClick}
@@ -248,16 +249,16 @@ const HomePage = () => {
         </div>
         <div className='col-span-3 flex flex-col justify-end items-end'>
           <div className='flex flex-row w-full border-2 border-zinc-800 rounded-lg'>
-            <button className='border-r-2 border-zinc-800 rounded-l-lg  w-1/3 text-lg hover:bg-yellow-200'
+            <button className={clsx('border-r-2 border-zinc-800 rounded-l-lg  w-1/3 text-lg hover:bg-yellow-200', { "bg-orange-300" : mode === 'FullCalender' })}
             onClick={() => handleChangeModeClick('FullCalender')}
             >Month</button>
-            <button className='border-r-2 border-zinc-800 w-1/3 text-lg hover:bg-yellow-200'
+            <button className={clsx('border-r-2 border-zinc-800 w-1/3 text-lg hover:bg-yellow-200', { "bg-orange-300" : mode === 'WeekCalendar' })}
               onClick={() => handleChangeModeClick('WeekCalendar')}
             >Week</button>
-            <button className='border-r-2 border-zinc-800 w-1/3 text-lg hover:bg-yellow-200'
+            <button className={clsx('border-r-2 border-zinc-800 w-1/3 text-lg hover:bg-yellow-200', { "bg-orange-300" : mode === 'List' })}
               onClick={() => handleChangeModeClick('List')}
             >List</button>
-            <button className='rounded-r-lg w-1/3 text-lg bg-orange-200 hover:bg-yellow-200'
+            <button className='rounded-r-md w-1/3 text-lg bg-zinc-600 text-slate-100 hover:bg-yellow-200 hover:text-zinc-900'
               onClick={() => handleTodayClick()}
             >Today</button>
           </div>
