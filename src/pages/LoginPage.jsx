@@ -1,4 +1,4 @@
-import { AuthInput } from '../components'
+import { CommonInput } from '../components'
 import { Link } from 'react-router-dom';
 import { testImage } from '../assets'
 
@@ -10,8 +10,18 @@ const LoginPage = () => {
             <h1 className='text-4xl font-semibold'>Fitness Record</h1>
             <h1 className='text-4xl'>Login</h1>
             <div className='flex flex-col gap-3 w-4/5'>
-              <AuthInput></AuthInput>
-              <AuthInput></AuthInput>
+              <CommonInput
+                label='Email'
+                name='email'
+                placeholder='請輸入Email'
+                type='email'
+              ></CommonInput>
+              <CommonInput
+                label='Password'
+                name='password'
+                placeholder='請輸入密碼'
+                type='password'
+              ></CommonInput>
             </div>
             <div className='flex flex-row-reverse w-4/5'>
               <button className='text-2xl border-4 border-zinc-800 rounded w-1/3 hover:bg-yellow-200'>Login</button>

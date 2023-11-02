@@ -1,4 +1,4 @@
-import { AuthInput, RadioInput, DateInput } from '../components'
+import { CommonInput, RadioInput, DateInput } from '../components'
 import { Link } from 'react-router-dom';
 
 const dummyData = [
@@ -16,10 +16,10 @@ const SignUpPage = () => {
             <h1 className='text-4xl font-semibold'>Fitness Record</h1>
             <h1 className='text-4xl'>Register</h1>
             <div className='flex flex-col gap-3 w-4/5'>
-              <AuthInput></AuthInput>
-              <AuthInput></AuthInput>
-              <AuthInput></AuthInput>
-              <AuthInput></AuthInput>
+              <CommonInput></CommonInput>
+              <CommonInput></CommonInput>
+              <CommonInput></CommonInput>
+              <CommonInput></CommonInput>
               <DateInput></DateInput>
               <RadioInput
                 title="Gender"
