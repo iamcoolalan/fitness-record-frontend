@@ -4,10 +4,12 @@ import clsx from 'clsx'
 import { CommonInput } from '../components'
 
 const TargetInfo = ({
-  isHidden
+  currentTab
 }) => {
+  const isNotTargetTab = currentTab !== 'Target'
+
   return (
-    <div className={clsx("grid grid-cols-9 grid-rows-[5%_repeat(8,minmax(0,1fr))] gap-3 h-full px-3", { "hidden" : isHidden })}>
+    <div className={clsx("grid grid-cols-9 grid-rows-[5%_repeat(5,minmax(0,1fr))_13%] gap-4 h-full px-3", { "hidden" : isNotTargetTab })}>
         <div className="col-span-9 row-span-1 grid grid-cols-9 gap-3">
           <div className="col-span-5 flex flex-col">
             <h1 className="text-xl text-slate-600 font-semibold">當前目標</h1>

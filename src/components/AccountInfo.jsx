@@ -3,15 +3,16 @@ import clsx from 'clsx'
 import { CommonInput, DateInput, RadioInput } from '../components' 
 
 const AccountInfo = ({
-  isHidden
+  currentTab
 }) => {
+  const isNotAccountTab = currentTab !== 'Account'
   const genderOptions = [
     {name: 'Male'},
     {name: 'Female'},
   ]
 
   return (
-    <div className={clsx('grid grid-rows-[repeat(5,minmax(0,1fr))] grid-cols-2 gap-3 px-3 w-full', { "hidden" : isHidden })}>
+    <div className={clsx('grid grid-rows-[repeat(5,minmax(0,1fr))] grid-cols-2 gap-3 px-3 w-full', { "hidden" : isNotAccountTab })}>
         <CommonInput
           label='暱稱'
           name='name'

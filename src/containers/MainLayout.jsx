@@ -76,7 +76,7 @@ const MainLayout = ({ children }) => {
             onClick={handleTabOnClick}
           ></Tab>
           <div className='border-4 border-gray-300 ring-8 ring-gray-600 ring-offset-8 rounded-xl p-2 h-[98%] w-[98%]'>
-            {children}
+            {React.cloneElement(children, { currentTab })}
           </div>
         </div>
       </div>
