@@ -7,5 +7,6 @@ import RecordListMode from "./RecordListMode";
 import Tab from "./Tab";
 import AccountInfo from "./AccountInfo";
 import TargetInfo from "./TargetInfo";
+import CreateWorkoutRecord from "./CreateWorkoutRecord";
 
-export { CommonInput, RadioInput, DateInput, FullCalender, WeekCalendar, RecordListMode, Tab, AccountInfo, TargetInfo };
+export { CommonInput, RadioInput, DateInput, FullCalender, WeekCalendar, RecordListMode, Tab, AccountInfo, TargetInfo, CreateWorkoutRecord };

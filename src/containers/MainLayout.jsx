@@ -11,6 +11,10 @@ const defaultTabList = {
   profile: [
    {name: 'Account'},
    {name: 'Target'}
+  ],
+  record: [
+   {name: 'Workout'},
+   {name: 'Bodydata'}
   ]
 }
 
@@ -41,6 +45,10 @@ const MainLayout = ({ children }) => {
           await setTablist(defaultTabList.profile)  
           await setCurrentTab(tabList[0].name)
           break
+        case '/record': 
+          await setTablist(defaultTabList.record)  
+          await setCurrentTab(tabList[0].name)
+          break
         default:
           setCurrentTab(null)
       }
@@ -63,7 +71,9 @@ const MainLayout = ({ children }) => {
             <Link className='text-2xl border-2 rounded hover:bg-yellow-200 hover:text-black w-3/4 text-center'to="/data"
               onClick={() => handleLinkClick('/data', defaultTabList.homepage)}
             >Data</Link>
-            <button className='w-3/4 text-2xl text-center border-2 rounded hover:bg-yellow-200 hover:text-black '>New Record</button>
+            <Link className='text-2xl border-2 rounded hover:bg-yellow-200 hover:text-black w-3/4 text-center'to="/record"
+              onClick={() => handleLinkClick('/record', defaultTabList.record)}
+            >New Record</Link>
           </div>
         </div>
         <button className='text-2xl border-4 rounded-xl p-1 w-[40%] absolute bottom-1 right-2 hover:border-yellow-200 hover:text-yellow-200 hover:shadow-md hover:shadow-orange-300'>Logout</button>

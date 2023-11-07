@@ -1,5 +1,4 @@
 import React from 'react'
-import clsx from "clsx";
 
 const CommonInput = ({
   label,
@@ -10,6 +9,7 @@ const CommonInput = ({
   step,
   disabled,
   className,
+  inputTextSize,
   inputClassName
 }) => {
   return (
@@ -18,14 +18,14 @@ const CommonInput = ({
         {label}
       </label>
       <input
-        className={`border-2 border-stone-950 rounded focus:outline-none focus:border-4 focus:border-yellow-200 focus:ring focus:ring-orange-300 focus:rounded h-10 px-2 font-mono text-lg ${inputClassName}`}
+        className={`border-2 border-stone-950 rounded focus:outline-none focus:border-4 focus:border-yellow-200 focus:ring focus:ring-orange-300 focus:rounded h-10 px-2 font-mono ${inputTextSize ? inputTextSize : 'text-lg'} ${inputClassName}`}
         type={type}
         name={name}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        step={(type === 'number') && step}
+        step={type === 'number' ? step : undefined}
         id={label}
-        disabled={disabled || false}
+        disabled={disabled}
       />
     </div>
   )
