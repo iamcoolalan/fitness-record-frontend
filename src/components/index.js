@@ -8,5 +8,6 @@ import Tab from "./Tab";
 import AccountInfo from "./AccountInfo";
 import TargetInfo from "./TargetInfo";
 import CreateWorkoutRecord from "./CreateWorkoutRecord";
+import CreateBodydataRecord from "./CreateBodydataRecord";
 
-export { CommonInput, RadioInput, DateInput, FullCalender, WeekCalendar, RecordListMode, Tab, AccountInfo, TargetInfo, CreateWorkoutRecord };
+export { CommonInput, RadioInput, DateInput, FullCalender, WeekCalendar, RecordListMode, Tab, AccountInfo, TargetInfo, CreateWorkoutRecord, CreateBodydataRecord };

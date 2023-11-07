@@ -25,20 +25,21 @@ const CreateWorkoutRecord = ({
             inputTextSize='text-4xl text-center'
           ></CommonInput>
           <div className='flex gap-3'>
-            <p className='text-lg text-gray-500 flex flex-row justify-center items-center gap-2'>
+            <div className='text-lg text-gray-500 flex flex-row justify-center items-center gap-2'>
               Date:
               <CommonInput
+                type='Date'
                 defaultValue={today}
                 inputClassName='h-full'
               ></CommonInput>
-            </p>
-            <p className='text-lg text-gray-500 flex flex-row justify-center items-center gap-2'>
+            </div>
+            <div className='text-lg text-gray-500 flex flex-row justify-center items-center gap-2'>
               Time:
                <CommonInput
                 defaultValue='1hr'
                 inputClassName='h-full w-full'
               ></CommonInput>
-            </p>
+            </div>
           </div>
         </div>
         <div className='grid grid-cols-12 row-span-1 border-b-4 border-r-4 border-gray-600 p-1 overflow-y-scroll'>

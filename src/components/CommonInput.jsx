@@ -8,7 +8,10 @@ const CommonInput = ({
   defaultValue,
   step,
   disabled,
+  min,
+  max,
   className,
+  onChange,
   inputTextSize,
   inputClassName
 }) => {
@@ -26,6 +29,9 @@ const CommonInput = ({
         step={type === 'number' ? step : undefined}
         id={label}
         disabled={disabled}
+        min={min}
+        max={max}
+        onChange={(e) => onChange(e)}
       />
     </div>
   )

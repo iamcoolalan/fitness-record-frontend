@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { CreateWorkoutRecord } from '../components';
+import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
 import { toDateString } from '../helpers/day';
 
 const dummyCategoryList = [
@@ -16,6 +16,15 @@ const dummyCategoryList = [
   { id: 8 ,name: '腿', path: null, isAddAble: false }
 ]
 
+const initialBodydata = {
+  date: new Date(),
+  height: 0,
+  weight: 0,
+  skeletalMuscle: 0,
+  bodyFat: 0,
+  visceralFatLevel: 0
+}
+
 const RecordPage = ({
   currentTab
 }) => {
@@ -24,6 +33,7 @@ const RecordPage = ({
   const [tableList, setTableList] = useState([])
   const [categoryList, setCategoryList] = useState([])
   const [categoryPath, setCategoryPath] = useState([])
+  const [bodydata, setBodydata] = useState(initialBodydata)
 
   function handleCategoryListClick(category) {
     if(category.isAddAble){
@@ -84,6 +94,17 @@ const RecordPage = ({
     setTableList(newTableList)
   }
 
+  function handleBodydataChange(e) {
+    const {name, value} = e.target
+
+    setBodydata(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
   useEffect(() => {
     function categoryListFilter() {
       const filterPath = categoryPath.length > 0 ? categoryPath.join('/') : null
@@ -97,17 +118,24 @@ const RecordPage = ({
   }, [categoryPath])
 
   return (
-    <CreateWorkoutRecord
-      currentTab={currentTab}
-      today={today}
-      tableList={tableList}
-      categoryPath={categoryPath}
-      categoryList={categoryList}
-      onRemoveWorkoutClick={handleRemoveWorkoutClick}
-      onRecordListChange={handleRecordListChange}
-      onCategoryPathClick={handleCategoryPathClick}
-      onCategoryListClick={handleCategoryListClick}
-    ></CreateWorkoutRecord>
+    <>
+      <CreateBodydataRecord
+        currentTab={currentTab}
+        today={today}
+        onBodydataChange={handleBodydataChange}
+      ></CreateBodydataRecord>
+      <CreateWorkoutRecord
+        currentTab={currentTab}
+        today={today}
+        tableList={tableList}
+        categoryPath={categoryPath}
+        categoryList={categoryList}
+        onRemoveWorkoutClick={handleRemoveWorkoutClick}
+        onRecordListChange={handleRecordListChange}
+        onCategoryPathClick={handleCategoryPathClick}
+        onCategoryListClick={handleCategoryListClick}
+      ></CreateWorkoutRecord>
+    </>
   )
 };
 
