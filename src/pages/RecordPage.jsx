@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
 import { toDateString } from '../helpers/day';
+import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext';
 
 const dummyCategoryList = [
   { id: 0 ,name: '推', path: null , isAddAble: false},
@@ -25,9 +26,8 @@ const initialBodydata = {
   visceralFatLevel: 0
 }
 
-const RecordPage = ({
-  currentTab
-}) => {
+const RecordPage = () => {
+  const { currentTab } = useContext(MainLayoutTabContext)
   const today = toDateString(new Date())
 
   const [tableList, setTableList] = useState([])

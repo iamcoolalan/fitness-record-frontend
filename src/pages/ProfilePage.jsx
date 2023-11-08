@@ -1,8 +1,10 @@
-import { AccountInfo, TargetInfo } from "../components"
+import { useContext } from "react"
 
-const ProfilePage = ({
-  currentTab
-}) => {
+import { AccountInfo, TargetInfo } from "../components"
+import { MainLayoutTabContext } from "../contexts/MainLayoutTabContext"
+
+const ProfilePage = () => {
+  const { currentTab } = useContext(MainLayoutTabContext);
   const title = currentTab === 'Account'? 'Personal Detail' : 'Target'
 
   return (
