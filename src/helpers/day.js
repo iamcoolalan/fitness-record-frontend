@@ -12,5 +12,8 @@ const getMonthAbbreviation = (month) => {
   return monthAbbreviations[month - 1];
 }
 
+const getQuarter = (month) => {
+  return Math.floor(month / 3) * 3
+}
 
-export { getDayOfWeek, toDateString, getMonthAbbreviation}
+export { getDayOfWeek, toDateString, getMonthAbbreviation, getQuarter}

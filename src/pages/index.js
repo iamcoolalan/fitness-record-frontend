@@ -6,4 +6,4 @@ import ProfilePage from "./ProfilePage";
 import RecordPage from "./RecordPage";
 import RecordDetailPage from "./RecordDetailPage";
 
-export { HomePage, LoginPage, SignUpPage, DataPage, ProfilePage, RecordPage, RecordDetailPage};
+export { HomePage, LoginPage, SignUpPage, DataPage, ProfilePage, RecordPage, RecordDetailPage };
