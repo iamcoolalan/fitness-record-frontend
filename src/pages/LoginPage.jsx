@@ -1,10 +1,18 @@
 import { useState } from 'react';
 import { CommonInput } from '../components'
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+
+import { useAuth } from '../contexts/AuthContext';
+import { useCheckAuthenticated } from '../hooks';
+import Swal from 'sweetalert2';
 
 const LoginPage = () => {
+  useCheckAuthenticated()
+
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
+
+  const { login } = useAuth()
 
   function handleEmailChange(e) {
     const { value } = e.target
@@ -16,6 +24,42 @@ const LoginPage = () => {
     const { value } = e.target;
 
     setPassword(value);
+  }
+
+  async function handleLoginClick() {
+    if (email.length === 0) {
+      return
+    }
+
+    if (password.length === 0) {
+      return
+    }
+
+    const { status, ...response } = await login({
+      email,
+      password
+    })
+
+    if (status === 'success') {
+      Swal.fire({
+        title: '登入成功',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1000,
+        position: 'top'
+      })
+
+      return
+    } else {
+       Swal.fire({
+        title: '登入失敗',
+        icon: 'error',
+        showConfirmButton: false,
+        text: response.summary,
+        timer: 1200,
+        position: 'top'
+      })
+    }
   }
 
   return (
@@ -41,7 +85,10 @@ const LoginPage = () => {
             ></CommonInput>
           </div>
           <div className="flex flex-row-reverse w-4/5">
-            <button className="text-2xl border-4 border-zinc-800 rounded w-1/3 hover:bg-yellow-200">
+            <button
+              className="text-2xl border-4 border-zinc-800 rounded w-1/3 hover:bg-yellow-200"
+              onClick={handleLoginClick}
+            >
               Login
             </button>
           </div>

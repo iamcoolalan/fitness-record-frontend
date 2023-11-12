@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { CommonInput, RadioInput, DateInput } from '../components'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useAuth } from '../contexts/AuthContext';
+import { useCheckAuthenticated } from '../hooks';
+import Swal from 'sweetalert2';
 
 const genderOptions = [
   { name: "Male", value: "male" },
@@ -8,12 +12,17 @@ const genderOptions = [
 ];
 
 const SignUpPage = () => {
+  useCheckAuthenticated()
+
    const [name, setName] = useState(null);
    const [email, setEmail] = useState(null);
    const [password, setPassword] = useState(null);
    const [passwordCheck, setPasswordCheck] = useState(null);
    const [birthday, setBirthday] = useState(null);
    const [gender, setGender] = useState(null);
+
+   const navigate = useNavigate()
+   const { register } = useAuth()
 
    function handleNameChange(e) {
      const { value } = e.target;
@@ -50,6 +59,64 @@ const SignUpPage = () => {
      const { value } = e.target;
 
      setGender(value);
+   }
+
+   const handleRegisterClick = async () => {
+    if ( name === null || name.length === 0 ) {
+      return
+    }
+
+    if (email === null || email.length === 0) {
+      return;
+    }
+
+    if (password === null || password.length === 0) {
+      return;
+    }
+
+    if (passwordCheck === null || passwordCheck.length === 0) {
+      return;
+    } else if (password !== passwordCheck) {
+      return;
+    }
+
+    if (birthday === null || birthday.length === 0) {
+      return;
+    }
+
+    if (gender === null || gender.length === 0) {
+      return;
+    }
+
+    const { status, ...response } = await register({
+      name,
+      email,
+      password,
+      passwordCheck,
+      birthday,
+      gender
+    })
+
+    if (status === 'success') {
+      navigate('/login')
+
+      Swal.fire({
+        title: '註冊成功',
+        icon: 'success', 
+        showConfirmButton: false,
+        timer: 1000,
+        position: 'top'
+      })
+    } else {
+      Swal.fire({
+        title: '登入失敗',
+        icon: 'error',
+        showConfirmButton: false,
+        text: response.summary,
+        timer: 1200,
+        position: 'top'
+      })
+    }
    }
 
   return (
@@ -94,14 +161,17 @@ const SignUpPage = () => {
               onChange={handleBirthdayChange}
             ></DateInput>
             <RadioInput
-              className= 'col-span-1'
+              className="col-span-1"
               title="Gender"
               options={genderOptions}
               onChange={handleGenderChange}
             ></RadioInput>
           </div>
           <div className="flex flex-row-reverse w-4/5 mt-8">
-            <button className="text-2xl border-4 border-zinc-800 rounded w-1/3 hover:bg-yellow-200">
+            <button
+              className="text-2xl border-4 border-zinc-800 rounded w-1/3 hover:bg-yellow-200"
+              onClick={handleRegisterClick}
+            >
               Register
             </button>
           </div>

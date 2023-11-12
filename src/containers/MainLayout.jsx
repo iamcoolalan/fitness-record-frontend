@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Tab } from '../components'
 import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext';
+import { useAuth } from '../contexts/AuthContext';
+import Swal from 'sweetalert2';
 
 const defaultTabList = {
   homepage: [
@@ -24,11 +26,12 @@ const defaultTabList = {
 }
 
 const MainLayout = ({ children }) => {
-  const navigate = useNavigate()
-  const location = useLocation()
-
   const [tabList, setTablist] = useState(defaultTabList.homepage)
   const [currentTab, setCurrentTab] = useState(tabList[0].name)
+  
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { logout } = useAuth()
 
   function handleTabOnClick(tab) {
     setCurrentTab(tab)
@@ -38,6 +41,19 @@ const MainLayout = ({ children }) => {
     setTablist(newTablist);
     setCurrentTab(newTablist[0].name);
     navigate(path)
+  }
+  
+  const handleLogoutClick = () => {
+    logout()
+    navigate('/login')
+
+    Swal.fire({
+        title: '登出成功',
+        icon: 'success',
+        showConfirmButton: false,
+        timer: 1000,
+        position: 'top'
+    })
   }
 
   useEffect(() => {
@@ -85,7 +101,7 @@ const MainLayout = ({ children }) => {
             </div>
           </div>
         </div>
-        <button className="text-2xl border-4 rounded-xl p-1 w-[40%] absolute bottom-1 right-2 hover:border-yellow-200 hover:text-yellow-200 hover:shadow-md hover:shadow-orange-300">
+        <button className="text-2xl border-4 rounded-xl p-1 w-[40%] absolute bottom-1 right-2 hover:border-yellow-200 hover:text-yellow-200 hover:shadow-md hover:shadow-orange-300" onClick={handleLogoutClick}>
           Logout
         </button>
       </div>
