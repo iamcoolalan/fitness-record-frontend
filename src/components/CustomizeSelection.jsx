@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { toDateString } from "../helpers/day";
+import { toDateString } from "../helpers/formatHelpers";
 
 const CustomizeSelection = ({
   timeRangeOption,
@@ -45,4 +45,4 @@ const CustomizeSelection = ({
   );
 };
 
-export default CustomizeSelection
+export default CustomizeSelection;

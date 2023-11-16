@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { getQuarter } from "../helpers/day";
+import { getQuarter } from "../helpers/formatHelpers";
 
 const QuarterSelection = ({
   timeRangeOption,
@@ -51,10 +51,7 @@ const QuarterSelection = ({
         >
           {Array.from({ length: 4 }, (_, index) => {
             return (
-              <option
-                key={`Q${index + 1}`}
-                value={index * 3}
-              >
+              <option key={`Q${index + 1}`} value={index * 3}>
                 {`Q${index + 1}`}
               </option>
             );
@@ -65,4 +62,4 @@ const QuarterSelection = ({
   );
 };
 
-export default QuarterSelection
+export default QuarterSelection;

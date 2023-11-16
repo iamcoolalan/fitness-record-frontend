@@ -6,7 +6,7 @@ import clsx from 'clsx'
 
 import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext.jsx'
 import { MonthSelection, QuarterSelection, CustomizeSelection } from '../components'
-import { getQuarter } from '../helpers/day.js'
+import { getQuarter } from '../helpers/formatHelpers.js'
 
 const data = [
  {

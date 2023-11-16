@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import { getMonthAbbreviation } from "../helpers/day";
+import { getMonthAbbreviation } from "../helpers/formatHelpers";
 
 const MonthSelection = ({
   timeRangeOption,
@@ -64,4 +64,4 @@ const MonthSelection = ({
   );
 };
 
-export default MonthSelection
+export default MonthSelection;

@@ -16,4 +16,11 @@ const getQuarter = (month) => {
   return Math.floor(month / 3) * 3
 }
 
-export { getDayOfWeek, toDateString, getMonthAbbreviation, getQuarter}
+const formatWorkoutTime = (min) => {
+  const hour = Math.floor(min / 60)
+  const restMin = min % 60
+
+  return `${hour}hr${restMin}min`
+}
+
+export { getDayOfWeek, toDateString, getMonthAbbreviation, getQuarter, formatWorkoutTime}

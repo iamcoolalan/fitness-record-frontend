@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 
 import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
-import { toDateString } from '../helpers/day';
+import { toDateString } from '../helpers/formatHelpers';
 import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext';
 
 const dummyCategoryList = [
