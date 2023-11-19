@@ -1,16 +1,22 @@
 import clsx from "clsx";
 
 import { toDateString, getDayOfWeek, formatWorkoutTime } from "../helpers/formatHelpers";
+import getPagination from "../helpers/pagination-helper";
+import { useNavigate } from "react-router-dom";
+
 
 const WeekCalendar = ({
   mode,
   startDayForDayMode,
   selectedDate,
   records,
+  selectedPage,
+  recordsCount,
   onSelectedPreviousDateClick,
   onSelectedFutureDateClick,
   onSelectedDateClick,
-  onRecordClick
+  onRecordDetailClick,
+  onSelectPageClick,
 }) => {
   const isNotWeekCalendarMode = mode !== "WeekCalendar";
   const currentSelectDate = new Date(
@@ -18,6 +24,17 @@ const WeekCalendar = ({
     selectedDate.month - 1,
     selectedDate.date
   );
+  const { pages, currentPage, nextPage, previousPage } = getPagination(
+    5,
+    selectedPage,
+    recordsCount
+  );
+
+  const navigate = useNavigate();
+
+  const handleAddNewRecordNavigateClick = () => {
+    navigate("/record");
+  };
 
   return (
     <div
@@ -77,7 +94,7 @@ const WeekCalendar = ({
                 <div
                   key={record.id}
                   className="flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer"
-                  onClick={() => onRecordClick(record.id)}
+                  onClick={() => onRecordDetailClick(record.id)}
                 >
                   <h2 className="text-2xl">{record.name}</h2>
                   <h2 className="text-2xl">
@@ -88,8 +105,47 @@ const WeekCalendar = ({
             })}
           </div>
           <div className="row-span-1 border-t-4 border-gray-500 flex justify-center items-center gap-2 h-full">
-            <button className="hover:bg-yellow-200">left</button>
-            <button className="hover:bg-yellow-200">right</button>
+            {records.length > 0 ? (
+              <>
+                <button
+                  className="text-xl font-bold hover:text-yellow-200"
+                  onClick={() => onSelectPageClick(previousPage)}
+                >
+                  {"<<"}
+                </button>
+                {pages.map((page) => {
+                  const isCurrentPage = page === currentPage;
+
+                  return (
+                    <button
+                      key={page}
+                      className={clsx(
+                        "border-2 border-gray-600 rounded p-0.5 text-lg hover:bg-yellow-200",
+                        { "bg-orange-200": isCurrentPage }
+                      )}
+                      onClick={() => onSelectPageClick(page)}
+                    >
+                      {page}
+                    </button>
+                  );
+                })}
+                <button
+                  className="text-xl font-bold hover:text-yellow-200"
+                  onClick={() => onSelectPageClick(nextPage)}
+                >
+                  {">>"}
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="text-2xl font-extrabold rounded-lg w-full h-full hover:bg-yellow-200"
+                  onClick={handleAddNewRecordNavigateClick}
+                >
+                  Add new Record!
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

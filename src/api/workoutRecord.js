@@ -1,47 +1,56 @@
 import axios from "axios";
 
-const baseURL = 'http://localhost:3001/api'
+const baseURL = "http://localhost:3001/api";
 
-const axiosInstance = axios.create({ baseURL })
+const axiosInstance = axios.create({ baseURL });
 
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
 
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
 
-    return config
+    return config;
   },
   (error) => {
-    console.error('[Request Failed]:', error)
+    console.error("[Request Failed]:", error);
   }
-)
+);
 
-export const getWorkoutRecords = async (endDate, startDate) => {
+export const getWorkoutRecords = async (
+  limit,
+  selectedPage,
+  endDate,
+  startDate
+) => {
   try {
     const res = await axiosInstance.get(`${baseURL}/workout-record`, {
       params: {
         startDate,
-        endDate
-      }
-    })
+        endDate,
+        limit,
+        page: selectedPage,
+      },
+    });
 
-    return res
+    return res;
   } catch (error) {
-    console.error('[Get Workout Records Failed]:', error)
-    return error
+    console.error("[Get Workout Records Failed]:", error);
+    return error;
   }
-}
+};
 
 export const getWorkoutRecord = async (recordId) => {
   try {
-    const res = await axiosInstance.get(`${baseURL}/workout-record/${recordId}`)
+    const res = await axiosInstance.get(
+      `${baseURL}/workout-record/${recordId}`
+    );
 
-    return res
+    return res;
   } catch (error) {
-     console.error('[Get Workout Record Failed]:', error)
-    return error
+    console.error("[Get Workout Record Failed]:", error);
+    return error;
   }
-}
+};

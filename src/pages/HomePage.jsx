@@ -9,6 +9,8 @@ import { getWorkoutRecords } from "../api/workoutRecord";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const DEFAULT_LIMIT = 5
+
   const today = new Date();
   const startDayForDayModeInitialValue = new Date(today);
   startDayForDayModeInitialValue.setDate(today.getDate() - 3);
@@ -16,8 +18,6 @@ const HomePage = () => {
   const yearInputRef = useRef(null);
   const monthInputRef = useRef(null);
 
-  //const [year, setYear] = useState(today.getFullYear())
-  //const [month, setMonth] = useState(today.getMonth() + 1)
   const [selectedDate, setSelectedDate] = useState({
     year: today.getFullYear(),
     month: today.getMonth() + 1,
@@ -34,8 +34,11 @@ const HomePage = () => {
   const [yearInputValue, setYearInputValue] = useState(selectedDate.year);
 
   const [mode, setMode] = useState("FullCalender");
+  const [modeUpdate, setModeUpdate] = useState(false)
 
   const [records, setRecords] = useState([]);
+  const [recordsCount, setRecordsCount] = useState(0)
+  const [selectedPage, setSelectedPage] = useState(1)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -197,6 +200,7 @@ const HomePage = () => {
 
   function handleChangeModeClick(mode) {
     setMode(mode);
+    setSelectedPage(1)
   }
 
   function handleFullCalendarClick(date) {
@@ -218,46 +222,43 @@ const HomePage = () => {
     });
   }
 
-  const handleWeekCalenderRecordClick = (recordId) => {
-    navigate(`/record/${recordId}`)
+  const handleRecordDetailClick = (recordId) => {
+    navigate(`/record/${recordId}`, { state: { mode } })
+  }
+
+  const handleSelectPageClick = (page) => {
+    setSelectedPage(page)
   }
 
   useEffect(() => {
-    if (mode !== "FullCalender") {
-      return;
+    if (modeUpdate) {
+      const limit = mode === "FullCalender" ? 0 : DEFAULT_LIMIT;
+      let startDate  
+      let endDate
+  
+      if (mode === "WeekCalendar") {
+        startDate = undefined
+        endDate = new Date(selectedDate.year, selectedDate.month - 1, selectedDate.date);
+      } else {
+        startDate = new Date(selectedDate.year, selectedDate.month - 1, 1);
+        endDate = new Date(selectedDate.year, selectedDate.month, 0);
+      }
+  
+      const getRecords = async () => {
+        const result = await getWorkoutRecords(
+          limit,
+          selectedPage,
+          endDate,
+          startDate
+        );
+
+        setRecordsCount(result.data.data.count);
+        setRecords(result.data.data.rows);
+      };
+  
+      getRecords();
     }
-
-    const getRecords = async () => {
-      const startDate = new Date(selectedDate.year, selectedDate.month - 1, 1);
-      const endDate = new Date(selectedDate.year, selectedDate.month, 0);
-
-      const result = await getWorkoutRecords(endDate, startDate);
-
-      setRecords(result.data.data.rows);
-    };
-
-    getRecords();
-  }, [selectedDate, mode]);
-
-  useEffect(() => {
-    if (mode !== "WeekCalendar") {
-      return;
-    }
-
-    const getRecords = async () => {
-      const selectedDateObject = new Date(
-        selectedDate.year,
-        selectedDate.month - 1,
-        selectedDate.date
-      );
-
-      const result = await getWorkoutRecords(selectedDateObject);
-
-      setRecords(result.data.data.rows);
-    };
-
-    getRecords();
-  }, [selectedDate, mode]);
+  }, [selectedDate, selectedPage, mode, modeUpdate]);
 
   useEffect(() => {
     if (mode !== "FullCalender") {
@@ -306,13 +307,20 @@ const HomePage = () => {
 
   useLayoutEffect(() => {
     if (location.state !== null) {
-      setSelectedDate({
-        year: location.state.date.getFullYear(),
-        month: location.state.date.getMonth() + 1,
-        date: location.state.date.getDate(),
-      });
+       if (location.state.date) {
+         setSelectedDate({
+           year: location.state.date.getFullYear(),
+           month: location.state.date.getMonth() + 1,
+           date: location.state.date.getDate(),
+         });
+       }
 
-      setMode(location.state.mode);
+      if (location.state.mode) {
+        setMode(location.state.mode);
+        setModeUpdate(true)
+      }
+    } else {
+      setModeUpdate(true);
     }
   }, [location])
 
@@ -431,7 +439,14 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <RecordListMode mode={mode}></RecordListMode>
+      <RecordListMode
+        mode={mode}
+        records={records}
+        recordsCount={recordsCount}
+        selectedPage={selectedPage}
+        onRecordDetailClick={handleRecordDetailClick}
+        onSelectPageClick={handleSelectPageClick}
+      ></RecordListMode>
       <FullCalender
         onClick={handleFullCalendarClick}
         mode={mode}
@@ -445,10 +460,13 @@ const HomePage = () => {
         startDayForDayMode={startDayForDayMode}
         selectedDate={selectedDate}
         records={records}
+        recordsCount={recordsCount}
+        selectedPage={selectedPage}
         onSelectedPreviousDateClick={handleSelectedPreviousDateClick}
         onSelectedFutureDateClick={handleSelectedFutureDateClick}
         onSelectedDateClick={handleSelectedDateClick}
-        onRecordClick={handleWeekCalenderRecordClick}
+        onRecordDetailClick={handleRecordDetailClick}
+        onSelectPageClick={handleSelectPageClick}
       ></WeekCalendar>
     </div>
   );

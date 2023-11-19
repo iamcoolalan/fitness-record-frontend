@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { formatWorkoutTime } from '../helpers/formatHelpers';
 
@@ -11,12 +11,13 @@ const RecordDetailPage = () => {
 
   const { recordId } = useParams()
   const navigate = useNavigate();
+  const location = useLocation()
 
   const handleBackClick = () => {
     navigate("/", {
       state: {
         date: new Date(recordInfo.date),
-        mode: "WeekCalendar",
+        mode: location.state.mode || "WeekCalendar",
       },
     });
   }
