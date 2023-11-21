@@ -54,3 +54,40 @@ export const getWorkoutRecord = async (recordId) => {
     return error;
   }
 };
+
+export const getWorkoutCategories = async () => {
+  try {
+    const res = await axiosInstance.get(`${baseURL}/workout-record/category`)
+
+    return res.data.data
+  } catch (error) {
+    console.error("[Get Workout Record Categories Failed]:", error);
+    return error;
+  }
+}
+
+export const createWorkoutRecord = async (recordName, date, workoutTime) => {
+  try {
+    const res = await axiosInstance.post(`${baseURL}/workout-record`, {
+      name: recordName,
+      date,
+      workoutTime
+    })
+
+    return res
+  } catch (error) {
+    console.error("[Create Workout Record Failed]:", error);
+    return error;
+  }
+}
+
+export const createWorkoutRecordDetail = async (workoutRecordId, detailList) => {
+  try {
+    const res = await axiosInstance.post(`${baseURL}/workout-record/${workoutRecordId}/details`, detailList)
+
+    return res
+  } catch (error) {
+    console.error("[Create Workout Record Detail Failed]:", error);
+    return error;
+  }
+}

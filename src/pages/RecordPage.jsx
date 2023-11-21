@@ -4,18 +4,10 @@ import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
 import { toDateString } from '../helpers/formatHelpers';
 import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext';
 
-const dummyCategoryList = [
-  { id: 0 ,name: '推', path: null , isAddAble: false},
-  { id: 1 ,name: '肩推', path: '推' , isAddAble: false},
-  { id: 2 ,name: '平胸推', path: '推' , isAddAble: false},
-  { id: 3 ,name: '斜上胸推', path: '推' , isAddAble: false},
-  { id: 4 ,name: '雙手', path: '推/斜上胸推' , isAddAble: true},
-  { id: 5 ,name: '單手', path: '推/斜上胸推' , isAddAble: true},
-  { id: 6 ,name: '交替', path: '推/斜上胸推' , isAddAble: true},
-  { id: 1 ,name: '阿諾肩推', path: '推/肩推' , isAddAble: true},
-  { id: 7 ,name: '拉', path: null , isAddAble: false},
-  { id: 8 ,name: '腿', path: null, isAddAble: false }
-]
+import { createWorkoutRecord, getWorkoutCategories, createWorkoutRecordDetail } from '../api/workoutRecord';
+import { useNavigate } from 'react-router-dom';
+
+let initialCategoryList = []
 
 const initialBodydata = {
   date: new Date(),
@@ -32,22 +24,30 @@ const RecordPage = () => {
 
   const [tableList, setTableList] = useState([])
   const [categoryList, setCategoryList] = useState([])
-  const [categoryPath, setCategoryPath] = useState([])
+  const [categoryListInitial, setCategoryListInitial] = useState(false);
+  const [categoryPath, setCategoryPath] = useState(['重量訓練'])
   const [bodydata, setBodydata] = useState(initialBodydata)
+  const [newRecord, setNewRecord] = useState({
+    recordName: "New Workout Record",
+    date: new Date(),
+    workoutTime: 0,
+  });
+
+  const navigate = useNavigate()
 
   function handleCategoryListClick(category) {
-    if(category.isAddAble){
+    if(category.isAddable === 1){
       setTableList(prev => {
         return [
           ...prev,
-          { 
-            categoryId: category.id,
+          {
+            workoutCategoryId: category.id,
             name: `${categoryPath[categoryPath.length - 1]} - ${category.name}`,
-            set: 0,
-            repetition: 0,
-            weight: 0
-          }
-        ]
+            totalSets: 0,
+            repetitions: 0,
+            weight: 0,
+          },
+        ];
       })
     } else {
       setCategoryPath(prev => {
@@ -105,17 +105,63 @@ const RecordPage = () => {
     })
   }
 
+  const handleCreateRecordClick = async () => {
+    try {
+      const { recordName, date, workoutTime } = newRecord
+      const newWorkoutRecord = await createWorkoutRecord(recordName, date, workoutTime);
+
+      const workoutRecordId = newWorkoutRecord.data.data?.id || null;
+
+      if (workoutRecordId) {
+        await createWorkoutRecordDetail(workoutRecordId, tableList);
+
+        navigate(`/record/${workoutRecordId}`);
+      } else {
+        throw new Error('Can not create new record!')
+      }
+    } catch (error) {
+      console.error("[Create Workout Record Failed]:", error);
+    }
+  }
+
+  const handleRecordInfoChange = (e) => {
+    const { name, value } = e.target
+
+    setNewRecord(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
   useEffect(() => {
-    function categoryListFilter() {
-      const filterPath = categoryPath.length > 0 ? categoryPath.join('/') : null
+    async function setInitialWorkoutCategory() {
+      const categories = await getWorkoutCategories()
 
-      const newCategoryList = dummyCategoryList.filter(category => category.path === filterPath)
-
-      setCategoryList(newCategoryList)
+      initialCategoryList = categories
+      setCategoryListInitial(true);
     }
 
-    categoryListFilter()
-  }, [categoryPath])
+    setInitialWorkoutCategory()
+  }, []);
+
+  useEffect(() => {
+    function categoryListFilter() {
+      const filterPath =
+        categoryPath.length > 0 ? categoryPath.join("/") : null;
+
+      const newCategoryList = initialCategoryList.filter(
+        (category) => category.path === filterPath
+      );
+
+      setCategoryList(newCategoryList);
+    }
+
+    if (categoryListInitial) {
+      categoryListFilter();
+    }
+  }, [categoryPath, categoryListInitial]);
 
   return (
     <>
@@ -134,9 +180,11 @@ const RecordPage = () => {
         onRecordListChange={handleRecordListChange}
         onCategoryPathClick={handleCategoryPathClick}
         onCategoryListClick={handleCategoryListClick}
+        onCreateRecordClick={handleCreateRecordClick}
+        onRecordInfoChange={handleRecordInfoChange}
       ></CreateWorkoutRecord>
     </>
-  )
+  );
 };
 
 export default RecordPage
