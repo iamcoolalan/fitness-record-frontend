@@ -7,6 +7,7 @@ const CommonInput = ({
   type,
   defaultValue,
   step,
+  value,
   disabled,
   min,
   max,
@@ -26,6 +27,7 @@ const CommonInput = ({
         name={name}
         placeholder={placeholder}
         defaultValue={defaultValue}
+        value={value}
         step={type === 'number' ? step : undefined}
         id={label}
         disabled={disabled}

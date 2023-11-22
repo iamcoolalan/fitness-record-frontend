@@ -1,10 +1,13 @@
 import clsx from 'clsx'
 
 import { CommonInput } from '../components'
+import { toDateString } from '../helpers/formatHelpers';
 
 const CreateWorkoutRecord = ({
   currentTab,
   today,
+  isEdit,
+  recordInfo,
   tableList,
   categoryPath,
   categoryList,
@@ -13,8 +16,10 @@ const CreateWorkoutRecord = ({
   onCategoryPathClick,
   onCategoryListClick,
   onCreateRecordClick,
+  onEditRecordClick,
   onRecordInfoChange
 }) => {
+  const editDate = new Date(recordInfo.date) 
   const isNotWorkoutTab = currentTab !== "Workout";
 
   return (
@@ -29,7 +34,7 @@ const CreateWorkoutRecord = ({
           <CommonInput
             type="text"
             name="recordName"
-            defaultValue="New Workout Record"
+            value={isEdit ? recordInfo.recordName : "New Workout Record"}
             inputTextSize="text-4xl text-center"
             onChange={onRecordInfoChange}
           ></CommonInput>
@@ -39,7 +44,7 @@ const CreateWorkoutRecord = ({
               <CommonInput
                 type="Date"
                 name="date"
-                defaultValue={today}
+                value={isEdit ? toDateString(editDate) : today}
                 inputClassName="h-full"
                 onChange={onRecordInfoChange}
               ></CommonInput>
@@ -49,7 +54,7 @@ const CreateWorkoutRecord = ({
               <CommonInput
                 type="number"
                 name="workoutTime"
-                defaultValue="1hr"
+                value={isEdit ? recordInfo.workoutTime : 60}
                 inputClassName="h-full w-full"
                 onChange={onRecordInfoChange}
               ></CommonInput>
@@ -79,7 +84,9 @@ const CreateWorkoutRecord = ({
                         -
                       </button>
                     </td>
-                    <td className="border border-slate-300">{item.name}</td>
+                    <td className="border border-slate-300">
+                      {item.name || item.WorkoutCategory.name}
+                    </td>
                     <td className="border border-slate-300">
                       <input
                         className="border-2 border-zinc-600 rounded w-[50px] text-center"
@@ -123,9 +130,9 @@ const CreateWorkoutRecord = ({
         <div className="row-span-1 flex flex-row justify-center items-center border-r-4 border-gray-600 w-full">
           <button
             className="text-3xl font-bold w-full h-full hover:bg-yellow-200"
-            onClick={onCreateRecordClick}
+            onClick={isEdit ? onEditRecordClick : onCreateRecordClick}
           >
-            Create
+            {isEdit ? "Update" : "Create"}
           </button>
         </div>
       </div>

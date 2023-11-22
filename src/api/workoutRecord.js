@@ -91,3 +91,29 @@ export const createWorkoutRecordDetail = async (workoutRecordId, detailList) => 
     return error;
   }
 }
+
+export const updateWorkoutRecord = async (workoutRecordId, updateData) => {
+  try {
+    const res = await axiosInstance.patch(`${baseURL}/workout-record/${workoutRecordId}`, {
+      name: updateData.recordName,
+      date: updateData.date,
+      workoutTime: updateData.workoutTime
+    })
+
+    return res
+  } catch (error) {
+    console.error("[Update Workout Record Failed]:", error);
+    return error;
+  }
+}
+
+export const updateWorkoutDetail = async (workoutRecordId, updateDetails) => {
+  try {
+    const res = await axiosInstance.patch(`${baseURL}/workout-record/${workoutRecordId}/details`, updateDetails)
+
+    return res
+  } catch (error) {
+    console.error("[Update Workout Record Detail Failed]:", error);
+    return error;
+  }
+} 

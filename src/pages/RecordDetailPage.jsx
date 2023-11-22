@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 
-import { formatWorkoutTime } from '../helpers/formatHelpers';
+import { formatWorkoutTime } from "../helpers/formatHelpers";
 
-import { getWorkoutRecord } from '../api/workoutRecord';
+import { getWorkoutRecord } from "../api/workoutRecord";
 
 const RecordDetailPage = () => {
-  const [recordDetails, setRecordDetails] = useState([])
+  const [recordDetails, setRecordDetails] = useState([]);
   const [recordInfo, setRecordInfo] = useState();
 
-  const { recordId } = useParams()
+  const { recordId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   const handleBackClick = () => {
     navigate("/", {
@@ -20,7 +20,16 @@ const RecordDetailPage = () => {
         mode: location.state.mode || "WeekCalendar",
       },
     });
-  }
+  };
+
+  const handleEditClick = () => {
+    navigate("/record", {
+      state: {
+        workoutRecordId: recordId,
+        isEdit: true,
+      },
+    });
+  };
 
   useEffect(() => {
     async function getWorkoutRecordDetail(recordId) {
@@ -30,7 +39,7 @@ const RecordDetailPage = () => {
       setRecordInfo({
         title: result.data.data.name,
         date: result.data.data.date,
-        time: result.data.data.workoutTime
+        time: result.data.data.workoutTime,
       });
     }
 
@@ -51,14 +60,15 @@ const RecordDetailPage = () => {
         </div>
       </div>
       <div className="row-span-1 grid grid-cols-2 grid-rows-4 gap-2 border-b-4 border-gray-600 p-1">
-        {recordDetails.map(detail => {
-          const categoryPath = detail.WorkoutCategory.path.split('/');
+        {recordDetails.map((detail) => {
+          const categoryPath = detail.WorkoutCategory.path.split("/");
           const categoryName = categoryPath[categoryPath.length - 2];
 
           return (
-            <div 
+            <div
               key={detail.id}
-              className="col-span-1 row-span-1 border-4 border-slate-300 rounded-lg shadow-md shadow-zinc-400 flex flex-row justify-between items-center px-2">
+              className="col-span-1 row-span-1 border-4 border-slate-300 rounded-lg shadow-md shadow-zinc-400 flex flex-row justify-between items-center px-2"
+            >
               <div>
                 <h3 className="text-2xl">{categoryName}</h3>
                 <h5 className="text-xl">{detail.WorkoutCategory.name}</h5>
@@ -79,12 +89,15 @@ const RecordDetailPage = () => {
         >
           Back
         </button>
-        <button className="text-lg border-2 border-zinc-800 rounded-lg w-[15%] hover:bg-yellow-200">
+        <button
+          className="text-lg border-2 border-zinc-800 rounded-lg w-[15%] hover:bg-yellow-200"
+          onClick={handleEditClick}
+        >
           Edit
         </button>
       </div>
     </div>
   );
-}
+};
 
-export default RecordDetailPage
+export default RecordDetailPage;

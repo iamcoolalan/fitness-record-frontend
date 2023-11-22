@@ -1,11 +1,18 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
 import { toDateString } from '../helpers/formatHelpers';
 import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext';
 
-import { createWorkoutRecord, getWorkoutCategories, createWorkoutRecordDetail } from '../api/workoutRecord';
-import { useNavigate } from 'react-router-dom';
+import {
+  createWorkoutRecord,
+  getWorkoutCategories,
+  createWorkoutRecordDetail,
+  getWorkoutRecord,
+  updateWorkoutRecord,
+  updateWorkoutDetail
+} from "../api/workoutRecord";
 
 let initialCategoryList = []
 
@@ -27,13 +34,16 @@ const RecordPage = () => {
   const [categoryListInitial, setCategoryListInitial] = useState(false);
   const [categoryPath, setCategoryPath] = useState(['重量訓練'])
   const [bodydata, setBodydata] = useState(initialBodydata)
-  const [newRecord, setNewRecord] = useState({
+  const [recordInfo, setRecordInfo] = useState({
     recordName: "New Workout Record",
     date: new Date(),
     workoutTime: 0,
   });
+  const [isEdit, setIsEdit] = useState(false)
+  const [editRecordId, setEditRecordId] = useState(null);
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   function handleCategoryListClick(category) {
     if(category.isAddable === 1){
@@ -107,7 +117,7 @@ const RecordPage = () => {
 
   const handleCreateRecordClick = async () => {
     try {
-      const { recordName, date, workoutTime } = newRecord
+      const { recordName, date, workoutTime } = recordInfo
       const newWorkoutRecord = await createWorkoutRecord(recordName, date, workoutTime);
 
       const workoutRecordId = newWorkoutRecord.data.data?.id || null;
@@ -127,12 +137,19 @@ const RecordPage = () => {
   const handleRecordInfoChange = (e) => {
     const { name, value } = e.target
 
-    setNewRecord(prev => {
+    setRecordInfo(prev => {
       return {
         ...prev,
         [name]: value
       }
     })
+  }
+
+  const handleEditRecordClick = async () => {
+    await updateWorkoutRecord(editRecordId, recordInfo);
+    await updateWorkoutDetail(editRecordId, tableList);
+
+    navigate(`/record/${editRecordId}`)
   }
 
   useEffect(() => {
@@ -145,6 +162,13 @@ const RecordPage = () => {
 
     setInitialWorkoutCategory()
   }, []);
+
+   useEffect(() => {
+     if (location.state !== null) {
+       setEditRecordId(location.state.workoutRecordId);
+       setIsEdit(location.state.isEdit);
+     }
+   }, []);
 
   useEffect(() => {
     function categoryListFilter() {
@@ -163,6 +187,25 @@ const RecordPage = () => {
     }
   }, [categoryPath, categoryListInitial]);
 
+  useEffect(() => {
+    if (!isEdit) {
+      return
+    }
+
+    async function getWorkoutRecordDetail(recordId) {
+      const result = await getWorkoutRecord(recordId);
+
+      setTableList(result.data.data.WorkoutDetails);
+      setRecordInfo({
+        recordName: result.data.data.name,
+        date: result.data.data.date,
+        workoutTime: result.data.data.workoutTime,
+      });
+    }
+
+    getWorkoutRecordDetail(editRecordId);
+  }, [isEdit])
+
   return (
     <>
       <CreateBodydataRecord
@@ -172,7 +215,9 @@ const RecordPage = () => {
       ></CreateBodydataRecord>
       <CreateWorkoutRecord
         currentTab={currentTab}
+        recordInfo={recordInfo}
         today={today}
+        isEdit={isEdit}
         tableList={tableList}
         categoryPath={categoryPath}
         categoryList={categoryList}
@@ -181,6 +226,7 @@ const RecordPage = () => {
         onCategoryPathClick={handleCategoryPathClick}
         onCategoryListClick={handleCategoryListClick}
         onCreateRecordClick={handleCreateRecordClick}
+        onEditRecordClick={handleEditRecordClick}
         onRecordInfoChange={handleRecordInfoChange}
       ></CreateWorkoutRecord>
     </>
