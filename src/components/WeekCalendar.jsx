@@ -17,6 +17,7 @@ const WeekCalendar = ({
   onSelectedDateClick,
   onRecordDetailClick,
   onSelectPageClick,
+  onOpenDeleteModalClick,
 }) => {
   const isNotWeekCalendarMode = mode !== "WeekCalendar";
   const currentSelectDate = new Date(
@@ -89,17 +90,25 @@ const WeekCalendar = ({
             )} Records`}</h2>
           </div>
           <div className="row-span-1 border-t-2 border-gray-500 grid grid-rows-5 p-1 gap-2">
-            {records.map((record) => {
+            {records.map((record, index) => {
               return (
-                <div
-                  key={record.id}
-                  className="flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer"
-                  onClick={() => onRecordDetailClick(record.id)}
-                >
-                  <h2 className="text-2xl">{record.name}</h2>
-                  <h2 className="text-2xl">
-                    {formatWorkoutTime(record.workoutTime)}
-                  </h2>
+                <div className="grid grid-cols-12 gap-1">
+                  <div
+                    key={record.id}
+                    className="col-span-11 flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer"
+                    onClick={() => onRecordDetailClick(record.id)}
+                  >
+                    <h2 className="text-2xl">{record.name}</h2>
+                    <h2 className="text-2xl">
+                      {formatWorkoutTime(record.workoutTime)}
+                    </h2>
+                  </div>
+                  <div
+                    className="col-span-1 flex justify-center items-center border-4 border-slate-300 rounded-lg shadow-lg hover:text-red-600 hover:shadow-slate-600 hover:border-red-600 cursor-pointer"
+                    onClick={() => onOpenDeleteModalClick(record.id, index)}
+                  >
+                    <h1 className="text-[1.1vw] font-semibold">Delete</h1>
+                  </div>
                 </div>
               );
             })}

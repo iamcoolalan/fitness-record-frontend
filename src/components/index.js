@@ -12,5 +12,6 @@ import CreateBodydataRecord from "./CreateBodydataRecord";
 import QuarterSelection from "./QuarterSelection";
 import MonthSelection from "./MonthSelection";
 import CustomizeSelection from "./CustomizeSelection";
+import Modal from "./modal";
 
-export { CommonInput, RadioInput, DateInput, FullCalender, WeekCalendar, RecordListMode, Tab, AccountInfo, TargetInfo, CreateWorkoutRecord, CreateBodydataRecord, QuarterSelection, MonthSelection, CustomizeSelection };
+export { CommonInput, RadioInput, DateInput, FullCalender, WeekCalendar, RecordListMode, Tab, AccountInfo, TargetInfo, CreateWorkoutRecord, CreateBodydataRecord, QuarterSelection, MonthSelection, CustomizeSelection, Modal };

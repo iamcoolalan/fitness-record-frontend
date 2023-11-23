@@ -11,7 +11,8 @@ import {
   createWorkoutRecordDetail,
   getWorkoutRecord,
   updateWorkoutRecord,
-  updateWorkoutDetail
+  updateWorkoutDetail,
+  deleteWorkoutDetail
 } from "../api/workoutRecord";
 
 let initialCategoryList = []
@@ -25,25 +26,31 @@ const initialBodydata = {
   visceralFatLevel: 0
 }
 
+const initialRecordInfo = {
+  recordName: "New Workout Record",
+  date: new Date(),
+  workoutTime: 0,
+};
+
 const RecordPage = () => {
   const { currentTab } = useContext(MainLayoutTabContext)
   const today = toDateString(new Date())
-
-  const [tableList, setTableList] = useState([])
-  const [categoryList, setCategoryList] = useState([])
-  const [categoryListInitial, setCategoryListInitial] = useState(false);
-  const [categoryPath, setCategoryPath] = useState(['重量訓練'])
-  const [bodydata, setBodydata] = useState(initialBodydata)
-  const [recordInfo, setRecordInfo] = useState({
-    recordName: "New Workout Record",
-    date: new Date(),
-    workoutTime: 0,
-  });
-  const [isEdit, setIsEdit] = useState(false)
-  const [editRecordId, setEditRecordId] = useState(null);
-
   const navigate = useNavigate()
   const location = useLocation()
+
+  const [editRecordId, setEditRecordId] = useState(null);
+
+  const [categoryListInitial, setCategoryListInitial] = useState(false);
+  const [isEdit, setIsEdit] = useState(false)
+
+  const [tableList, setTableList] = useState([])
+  const [deleteTableList, setDeleteTableList] = useState([])
+  const [categoryList, setCategoryList] = useState([])
+  const [categoryPath, setCategoryPath] = useState(['重量訓練'])
+
+  const [bodydata, setBodydata] = useState(initialBodydata)
+  const [recordInfo, setRecordInfo] = useState(initialRecordInfo);
+
 
   function handleCategoryListClick(category) {
     if(category.isAddable === 1){
@@ -71,8 +78,16 @@ const RecordPage = () => {
 
   function handleRemoveWorkoutClick(index) {
     const updateList = [...tableList]
+    const deleteItem = updateList.splice(index, 1)
 
-    updateList.splice(index, 1)
+    if (isEdit) {
+      setDeleteTableList(prev => {
+        return [
+          ...prev,
+          ...deleteItem
+        ]
+      })
+    }
 
     setTableList(updateList)
   }
@@ -148,6 +163,7 @@ const RecordPage = () => {
   const handleEditRecordClick = async () => {
     await updateWorkoutRecord(editRecordId, recordInfo);
     await updateWorkoutDetail(editRecordId, tableList);
+    await deleteWorkoutDetail(editRecordId, deleteTableList)
 
     navigate(`/record/${editRecordId}`)
   }

@@ -11,6 +11,7 @@ const RecordListMode = ({
   selectedPage,
   onRecordDetailClick,
   onSelectPageClick,
+  onOpenDeleteModalClick,
 }) => {
   const isNotListMode = mode !== "List";
   const { pages, currentPage, nextPage, previousPage } = getPagination(
@@ -19,11 +20,11 @@ const RecordListMode = ({
     recordsCount
   );
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleAddNewRecordNavigateClick = () => {
-    navigate('/record')
-  }
+    navigate("/record");
+  };
 
   return (
     <div
@@ -33,21 +34,29 @@ const RecordListMode = ({
       )}
     >
       <div className="row-span-1 grid grid-rows-5 gap-2 border-b-4 border-gray-600 p-1">
-        {records.map((record) => {
+        {records.map((record, index) => {
           return (
-            <div
-              key={record.id}
-              className="flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer"
-              onClick={() => onRecordDetailClick(record.id)}
-            >
-              <div className="flex flex-col">
-                <h2 className="text-2xl">{record.name}</h2>
-                <h2 className="text-xl">
-                  {formatWorkoutTime(record.workoutTime)}
-                </h2>
+            <div className="grid grid-cols-12 gap-1">
+              <div
+                key={record.id}
+                className="col-span-11 flex justify-between items-center border-4 border-slate-300 px-3 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer"
+                onClick={() => onRecordDetailClick(record.id)}
+              >
+                <div className="flex flex-col">
+                  <h2 className="text-2xl">{record.name}</h2>
+                  <h2 className="text-xl">
+                    {formatWorkoutTime(record.workoutTime)}
+                  </h2>
+                </div>
+                <div>
+                  <p className="text-2xl">{record.date}</p>
+                </div>
               </div>
-              <div>
-                <p className="text-2xl">{record.date}</p>
+              <div
+                className="col-span-1 flex justify-center items-center border-4 border-slate-300 rounded-lg shadow-lg hover:text-red-600 hover:shadow-slate-600 hover:border-red-600 cursor-pointer"
+                onClick={() => onOpenDeleteModalClick(record.id, index)}
+              >
+                <h1 className="text-[1.3vw] font-semibold">Delete</h1>
               </div>
             </div>
           );

@@ -117,3 +117,25 @@ export const updateWorkoutDetail = async (workoutRecordId, updateDetails) => {
     return error;
   }
 } 
+
+export const deleteWorkoutDetail = async (workoutRecordId, deleteDetails) => {
+  try {
+    const res = await axiosInstance.delete(`${baseURL}/workout-record/${workoutRecordId}/details`, { data: deleteDetails })
+
+    return res
+  } catch (error) {
+    console.error("[Delete Workout Record Detail Failed]:", error);
+    return error;
+  }
+} 
+
+export const deleteWorkoutRecord = async (workoutRecordId) => {
+  try {
+    const res = await axiosInstance.delete(`${baseURL}/workout-record/${workoutRecordId}`)
+
+    return res.data.status
+  } catch (error) {
+    console.error("[Delete Workout Record Failed]:", error);
+    return error;
+  }
+}

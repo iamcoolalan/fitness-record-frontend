@@ -3,9 +3,9 @@ import clsx from "clsx";
 import addDays from "date-fns/addDays";
 import subDays from "date-fns/subDays";
 
-import { FullCalender, WeekCalendar, RecordListMode } from "../components";
+import { FullCalender, WeekCalendar, RecordListMode, Modal } from "../components";
 import { getMonthAbbreviation } from "../helpers/formatHelpers";
-import { getWorkoutRecords } from "../api/workoutRecord";
+import { getWorkoutRecords, deleteWorkoutRecord } from "../api/workoutRecord";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const HomePage = () => {
@@ -14,15 +14,16 @@ const HomePage = () => {
   const today = new Date();
   const startDayForDayModeInitialValue = new Date(today);
   startDayForDayModeInitialValue.setDate(today.getDate() - 3);
+  
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const yearInputRef = useRef(null);
   const monthInputRef = useRef(null);
 
-  const [selectedDate, setSelectedDate] = useState({
-    year: today.getFullYear(),
-    month: today.getMonth() + 1,
-    date: today.getDate(),
-  });
+  const [mode, setMode] = useState("FullCalender");
+  const [recordsCount, setRecordsCount] = useState(0)
+  const [selectedPage, setSelectedPage] = useState(1)
   const [startDateForFullCalender, setForFullCalender] = useState(new Date());
   const [startDayForDayMode, setStartDayForDayMode] = useState(
     startDayForDayModeInitialValue
@@ -30,18 +31,24 @@ const HomePage = () => {
 
   const [isYearEdit, setIsYearEdit] = useState(false);
   const [isMonthEdit, setIsMonthEdit] = useState(false);
+  const [modeUpdate, setModeUpdate] = useState(false)
+  const [triggerGetRecords, setTriggerGetRecords] = useState(false)
+  
+  const [records, setRecords] = useState([]);
+  const [modalState, setModalState] = useState({
+    isOpen: false,
+    message: null,
+    recordId: null,
+    recordPositionIndex: null
+  });
+  const [selectedDate, setSelectedDate] = useState({
+    year: today.getFullYear(),
+    month: today.getMonth() + 1,
+    date: today.getDate(),
+  });
   const [monthInputValue, setMonthInputValue] = useState(selectedDate.month);
   const [yearInputValue, setYearInputValue] = useState(selectedDate.year);
-
-  const [mode, setMode] = useState("FullCalender");
-  const [modeUpdate, setModeUpdate] = useState(false)
-
-  const [records, setRecords] = useState([]);
-  const [recordsCount, setRecordsCount] = useState(0)
-  const [selectedPage, setSelectedPage] = useState(1)
-
-  const navigate = useNavigate()
-  const location = useLocation()
+  
 
   function handleYearLeftClick() {
     setSelectedDate((prev) => {
@@ -230,6 +237,47 @@ const HomePage = () => {
     setSelectedPage(page)
   }
 
+  const handleDeleteRecordClick = async () => {
+    const result = await deleteWorkoutRecord(modalState.recordId)
+    
+
+    if (result === 'success') {
+      setTriggerGetRecords(!triggerGetRecords)
+    }
+
+    setModalState((prev) => {
+      return {
+        isOpen: false,
+        message: null,
+        recordId: null,
+        recordPositionIndex: null,
+      };
+    });
+
+  }
+
+  const handleOpenDeleteModal = (recordId, recordPositionIndex) => {
+    setModalState((prev) => {
+      return {
+        isOpen: true,
+        message: "確定要刪除此紀錄嗎?",
+        recordId,
+        recordPositionIndex,
+      };
+    });
+  };
+
+  const handleCloseDeleteModal = () => {
+    setModalState((prev) => {
+      return {
+        isOpen: false,
+        message: null,
+        recordId: null,
+        recordPositionIndex: null
+      };
+    });
+  };
+
   useEffect(() => {
     if (modeUpdate) {
       const limit = mode === "FullCalender" ? 0 : DEFAULT_LIMIT;
@@ -258,7 +306,7 @@ const HomePage = () => {
   
       getRecords();
     }
-  }, [selectedDate, selectedPage, mode, modeUpdate]);
+  }, [selectedDate, selectedPage, mode, modeUpdate, triggerGetRecords]);
 
   useEffect(() => {
     if (mode !== "FullCalender") {
@@ -325,7 +373,7 @@ const HomePage = () => {
   }, [location])
 
   return (
-    <div className="w-full h-full flex flex-col gap-1">
+    <div className="w-full h-full flex flex-col gap-1" id="homepage">
       <div className="grid grid-cols-7">
         <div className="col-span-4">
           <div className={clsx("flex gap-2", { hidden: isYearEdit })}>
@@ -446,6 +494,7 @@ const HomePage = () => {
         selectedPage={selectedPage}
         onRecordDetailClick={handleRecordDetailClick}
         onSelectPageClick={handleSelectPageClick}
+        onOpenDeleteModalClick={handleOpenDeleteModal}
       ></RecordListMode>
       <FullCalender
         onClick={handleFullCalendarClick}
@@ -467,7 +516,11 @@ const HomePage = () => {
         onSelectedDateClick={handleSelectedDateClick}
         onRecordDetailClick={handleRecordDetailClick}
         onSelectPageClick={handleSelectPageClick}
+        onOpenDeleteModalClick={handleOpenDeleteModal}
       ></WeekCalendar>
+      {modalState.isOpen && (
+        <Modal onCloseDeleteModalClick={handleCloseDeleteModal} onDeleteRecordClick={handleDeleteRecordClick} message={modalState.message}></Modal>
+      )}
     </div>
   );
 };
