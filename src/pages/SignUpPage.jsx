@@ -163,6 +163,7 @@ const SignUpPage = () => {
             <RadioInput
               className="col-span-1"
               title="Gender"
+              name="gender"
               options={genderOptions}
               onChange={handleGenderChange}
             ></RadioInput>

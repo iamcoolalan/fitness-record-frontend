@@ -1,6 +1,8 @@
 import React from 'react'
 
 const RadioInput = ({
+  userGender,
+  name,
   className,
   options,
   title,
@@ -16,9 +18,10 @@ const RadioInput = ({
             <input
               className="text-lg w-[16px] h-[16px]"
               type="radio"
-              name={title.toLowerCase()}
+              name={name}
               id="option1"
               value={option.value}
+              checked={userGender === option.value}
               onChange={(e) => onChange(e)}
             />
             <label className="text-xl" htmlFor="option1">

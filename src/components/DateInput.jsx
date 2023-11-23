@@ -3,6 +3,7 @@ import React from 'react'
 const DateInput = ({
   label,
   name,
+  value,
   defaultValue,
   onChange
 }) => {
@@ -16,6 +17,7 @@ const DateInput = ({
         type="date"
         name={name}
         id={label}
+        value={value}
         defaultValue={defaultValue}
         onChange={(e) => onChange(e)}
       />
