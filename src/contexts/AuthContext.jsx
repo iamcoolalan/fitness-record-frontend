@@ -62,7 +62,8 @@ export const AuthProvider = ({ children }) => {
             password: data.password,
             passwordCheck: data.passwordCheck,
             birthday: data.birthday,
-            gender: data.gender
+            gender: data.gender,
+            isRegister: true
           })
 
           return result

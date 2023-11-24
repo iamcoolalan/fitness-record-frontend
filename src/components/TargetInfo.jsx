@@ -5,7 +5,7 @@ import { CommonInput } from '../components'
 
 const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
   const isNotTargetTab = currentTab !== "Target";
-
+  // 前次目標改成 最近一次記錄身體數值的資料
   return (
     <div
       className={clsx(
@@ -20,7 +20,7 @@ const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
           <hr className="border-t-4 border-slate-600 mt-1" />
         </div>
         <div className="col-span-2 flex flex-col">
-          <h1 className="text-xl text-slate-400 font-semibold">前次目標</h1>
+          <h1 className="text-xl text-slate-400 font-semibold">近一次數據測量</h1>
           <hr className="border-t-2 border-slate-400" />
           <hr className="border-t-4 border-slate-400 mt-1" />
         </div>
