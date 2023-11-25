@@ -13,7 +13,7 @@ const BodydataRecordDetail = ({ recordDetails, recordInfo }) => {
             身高
           </div>
           <div className="col-span-6 border-4 border-gray-400  rounded-lg flex justify-center items-center text-2xl shadow-lg">
-            {recordDetails.height}
+            {recordDetails.height || 0}
           </div>
         </div>
         <div className="col-start-2 col-end-12 row-start-3 grid grid-cols-9 gap-2">
@@ -21,7 +21,7 @@ const BodydataRecordDetail = ({ recordDetails, recordInfo }) => {
             體重
           </div>
           <div className="col-span-6 border-4 border-gray-400 rounded-lg flex justify-center items-center text-2xl shadow-lg">
-            {recordDetails.weight}
+            {recordDetails.weight || 0}
           </div>
         </div>
         <div className="col-start-2 col-end-12 row-start-4 grid grid-cols-9 gap-2">
@@ -29,7 +29,7 @@ const BodydataRecordDetail = ({ recordDetails, recordInfo }) => {
             肌肉量
           </div>
           <div className="col-span-6 border-4 border-gray-400 rounded-lg flex justify-center items-center text-2xl shadow-lg">
-            {recordDetails.skeletalMuscle}
+            {recordDetails.skeletalMuscle || 0}
           </div>
         </div>
         <div className="col-start-2 col-end-12 row-start-5 grid grid-cols-9 gap-2">
@@ -37,7 +37,7 @@ const BodydataRecordDetail = ({ recordDetails, recordInfo }) => {
             體脂率
           </div>
           <div className="col-span-6 border-4 border-gray-400 rounded-lg flex justify-center items-center text-2xl shadow-lg">
-            {recordDetails.bodyFat}
+            {recordDetails.bodyFat || 0}
           </div>
         </div>
         <div className="col-start-2 col-end-12 row-start-6 grid grid-cols-9 gap-2">
@@ -45,7 +45,7 @@ const BodydataRecordDetail = ({ recordDetails, recordInfo }) => {
             內臟脂肪等級
           </div>
           <div className="col-span-6 border-4 border-gray-400 rounded-lg flex justify-center items-center text-2xl shadow-lg">
-            {recordDetails.visceralFatLevel}
+            {recordDetails.visceralFatLevel || 0}
           </div>
         </div>
       </div>

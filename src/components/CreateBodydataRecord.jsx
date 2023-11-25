@@ -5,7 +5,8 @@ import { CommonInput } from '../components'
 const CreateBodydataRecord = ({
   currentTab,
   today,
-  onBodydataChange
+  onBodydataChange,
+  onCreateRecordClick
 }) => {
   const isNotBodydataTab = currentTab !== 'Bodydata'
 
@@ -31,7 +32,7 @@ const CreateBodydataRecord = ({
         <div className='row-span-1 grid grid-cols-12 border-b-4 border-gray-600 h-full p-2'>
           <div className='col-start-5 col-end-9 grid grid-rows-5'>
             <CommonInput
-              className="row-span-1"
+              className="row-span-1 justify-center"
               label='身高(cm)'
               name='height'
               type='number'
@@ -41,7 +42,7 @@ const CreateBodydataRecord = ({
               onChange={onBodydataChange}
             ></CommonInput>
               <CommonInput
-                className="row-span-1"
+                className="row-span-1 justify-center"
                 label='體重(kg)'
                 name='weight'
                 type='number'
@@ -51,7 +52,7 @@ const CreateBodydataRecord = ({
                 onChange={onBodydataChange}
               ></CommonInput>
               <CommonInput
-                className="row-span-1"
+                className="row-span-1 justify-center"
                 label='肌肉量(kg)'
                 name='skeletalMuscle'
                 type='number'
@@ -61,7 +62,7 @@ const CreateBodydataRecord = ({
                 onChange={onBodydataChange}
               ></CommonInput>
               <CommonInput
-                className="row-span-1"
+                className="row-span-1 justify-center"
                 label='體脂率(%)'
                 name='bodyFat'
                 type='number'
@@ -72,7 +73,7 @@ const CreateBodydataRecord = ({
                 onChange={onBodydataChange}
               ></CommonInput>
               <CommonInput
-                className="row-span-1"
+                className="row-span-1 justify-center"
                 label='內臟脂肪等級(1~10)'
                 name='visceralFatLevel'
                 type='number'
@@ -85,7 +86,7 @@ const CreateBodydataRecord = ({
           </div>
         </div>
         <div className='row-span-1 flex flex-row justify-center items-center border-gray-600 w-full'>
-          <button className='border-4 border-zinc-700 rounded-lg text-xl w-[30%] hover:bg-yellow-200'>
+          <button className='text-[2vw] font-medium w-full h-full hover:bg-yellow-200' onClick={onCreateRecordClick}>
             Create
           </button>
         </div>

@@ -33,3 +33,19 @@ export const getBodydataRecord = async (bodyRecordId) => {
     return error;
   }
 }
+
+export const createBodydataRecord = async (newRecord) => {
+  const { date, ...newData } = newRecord
+
+  try {
+    const res = await axiosInstance.post(`${baseURL}/bodydata-record`, {
+      date,
+      newData
+    })
+
+    return res.data
+  } catch (error) {
+    console.error("[Create Bodydata Record Failed]:", error);
+    return error.response.data;
+  }
+}

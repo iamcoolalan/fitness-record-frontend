@@ -129,7 +129,7 @@ const CreateWorkoutRecord = ({
         </div>
         <div className="row-span-1 flex flex-row justify-center items-center border-r-4 border-gray-600 w-full">
           <button
-            className="text-3xl font-bold w-full h-full hover:bg-yellow-200"
+            className="text-[2vw] font-medium w-full h-full hover:bg-yellow-200"
             onClick={isEdit ? onEditRecordClick : onCreateRecordClick}
           >
             {isEdit ? "Update" : "Create"}

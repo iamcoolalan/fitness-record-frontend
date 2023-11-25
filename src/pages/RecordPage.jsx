@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
 
 import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
 import { toDateString } from '../helpers/formatHelpers';
@@ -14,16 +15,12 @@ import {
   updateWorkoutDetail,
   deleteWorkoutDetail
 } from "../api/workoutRecord";
+import { createBodydataRecord } from '../api/bodydataRecord';
 
 let initialCategoryList = []
 
 const initialBodydata = {
-  date: new Date(),
-  height: 0,
-  weight: 0,
-  skeletalMuscle: 0,
-  bodyFat: 0,
-  visceralFatLevel: 0
+  date: new Date()
 }
 
 const initialRecordInfo = {
@@ -122,15 +119,25 @@ const RecordPage = () => {
   function handleBodydataChange(e) {
     const {name, value} = e.target
 
-    setBodydata(prev => {
-      return {
-        ...prev,
-        [name]: value
-      }
-    })
+    if (name === 'date') {
+      setBodydata(prev => {
+        return {
+          ...prev,
+          date: value
+        }
+      })
+    }else {
+      setBodydata(prev => {
+        return {
+          ...prev,
+          [name]: Number(value) === 0 ? undefined : Number(value)
+        }
+      })
+    }
   }
 
-  const handleCreateRecordClick = async () => {
+
+  const handleCreateWorkoutRecordClick = async () => {
     try {
       const { recordName, date, workoutTime } = recordInfo
       const newWorkoutRecord = await createWorkoutRecord(recordName, date, workoutTime);
@@ -140,7 +147,7 @@ const RecordPage = () => {
       if (workoutRecordId) {
         await createWorkoutRecordDetail(workoutRecordId, tableList);
 
-        navigate(`/record/${workoutRecordId}`);
+        navigate(`/record/${workoutRecordId}`, { state: { mode: 'WeekCalendar', currentTab }});
       } else {
         throw new Error('Can not create new record!')
       }
@@ -160,12 +167,41 @@ const RecordPage = () => {
     })
   }
 
-  const handleEditRecordClick = async () => {
+  const handleEditWorkoutRecordClick = async () => {
     await updateWorkoutRecord(editRecordId, recordInfo);
     await updateWorkoutDetail(editRecordId, tableList);
     await deleteWorkoutDetail(editRecordId, deleteTableList)
 
-    navigate(`/record/${editRecordId}`)
+    navigate(`/record/${editRecordId}`, { state: { mode: 'WeekCalendar', currentTab }})
+  }
+
+  const handleCreateBodydataRecordClick = async () => {
+    const result = await createBodydataRecord(bodydata)
+
+    const { status } = result
+
+    if (status === 'success') {
+      const { id } = result.data
+
+      Swal.fire({
+         title: "新增成功",
+         icon: "success",
+         showConfirmButton: false,
+         timer: 1000,
+         position: "top",
+       });
+
+      navigate(`/record/${id}`, { state: { mode: 'WeekCalendar', currentTab }})
+    } else {
+      Swal.fire({
+        title: "新增失敗",
+        icon: "error",
+        showConfirmButton: false,
+        text: result.detail,
+        timer: 1200,
+        position: "top",
+      });
+    }
   }
 
   useEffect(() => {
@@ -228,6 +264,7 @@ const RecordPage = () => {
         currentTab={currentTab}
         today={today}
         onBodydataChange={handleBodydataChange}
+        onCreateRecordClick={handleCreateBodydataRecordClick}
       ></CreateBodydataRecord>
       <CreateWorkoutRecord
         currentTab={currentTab}
@@ -241,8 +278,8 @@ const RecordPage = () => {
         onRecordListChange={handleRecordListChange}
         onCategoryPathClick={handleCategoryPathClick}
         onCategoryListClick={handleCategoryListClick}
-        onCreateRecordClick={handleCreateRecordClick}
-        onEditRecordClick={handleEditRecordClick}
+        onCreateRecordClick={handleCreateWorkoutRecordClick}
+        onEditRecordClick={handleEditWorkoutRecordClick}
         onRecordInfoChange={handleRecordInfoChange}
       ></CreateWorkoutRecord>
     </>
