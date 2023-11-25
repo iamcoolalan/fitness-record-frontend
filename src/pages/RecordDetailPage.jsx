@@ -37,7 +37,8 @@ const RecordDetailPage = () => {
   const handleEditClick = () => {
     navigate("/record", {
       state: {
-        workoutRecordId: recordId,
+        currentTab,
+        recordId: recordId,
         isEdit: true,
       },
     });

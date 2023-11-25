@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { toDateString, getDayOfWeek, formatWorkoutTime } from "../helpers/formatHelpers";
 import getPagination from "../helpers/pagination-helper";
 import { useNavigate } from "react-router-dom";
+import { useTab } from "../contexts/MainLayoutTabContext";
 
 
 const WeekCalendar = ({
@@ -31,10 +32,11 @@ const WeekCalendar = ({
     recordsCount
   );
 
+  const { currentTab } = useTab()
   const navigate = useNavigate();
 
   const handleAddNewRecordNavigateClick = () => {
-    navigate("/record");
+    navigate("/record", { state: {currentTab} });
   };
 
   return (

@@ -35,17 +35,33 @@ export const getBodydataRecord = async (bodyRecordId) => {
 }
 
 export const createBodydataRecord = async (newRecord) => {
-  const { date, ...newData } = newRecord
+  const { date, ...bodydata } = newRecord
 
   try {
     const res = await axiosInstance.post(`${baseURL}/bodydata-record`, {
       date,
-      newData
+      bodydata
     })
 
     return res.data
   } catch (error) {
     console.error("[Create Bodydata Record Failed]:", error);
+    return error.response.data;
+  }
+}
+
+export const updateBodydataRecord = async (recordId, updateData) => {
+  try {
+    const { date, ...bodydata } = updateData
+
+    const res = await axiosInstance.patch(`${baseURL}/bodydata-record/${recordId}`, {
+      date,
+      bodydata
+    })
+
+    return res.data
+  } catch (error) {
+    console.error("[Update Bodydata Record Failed]:", error);
     return error.response.data;
   }
 }

@@ -39,6 +39,7 @@ const MainLayout = ({ children }) => {
   }
 
   function handleLinkClick(path, newTablist) {
+    setIsDisable(false)
     setTablist(newTablist);
     setCurrentTab(newTablist[0].name);
     navigate(path)

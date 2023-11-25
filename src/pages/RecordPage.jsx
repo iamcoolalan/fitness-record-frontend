@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
-import { toDateString } from '../helpers/formatHelpers';
-import { useTab } from '../contexts/MainLayoutTabContext';
+import { CreateWorkoutRecord, CreateBodydataRecord } from "../components";
+import { toDateString } from "../helpers/formatHelpers";
+import { useTab } from "../contexts/MainLayoutTabContext";
 
 import {
   createWorkoutRecord,
@@ -13,15 +13,19 @@ import {
   getWorkoutRecord,
   updateWorkoutRecord,
   updateWorkoutDetail,
-  deleteWorkoutDetail
+  deleteWorkoutDetail,
 } from "../api/workoutRecord";
-import { createBodydataRecord } from '../api/bodydataRecord';
+import {
+  createBodydataRecord,
+  getBodydataRecord,
+  updateBodydataRecord,
+} from "../api/bodydataRecord";
 
-let initialCategoryList = []
+let initialCategoryList = [];
 
 const initialBodydata = {
-  date: new Date()
-}
+  date: new Date(),
+};
 
 const initialRecordInfo = {
   recordName: "New Workout Record",
@@ -30,28 +34,27 @@ const initialRecordInfo = {
 };
 
 const RecordPage = () => {
-  const { currentTab } = useTab();
-  const today = toDateString(new Date())
-  const navigate = useNavigate()
-  const location = useLocation()
+  const { currentTab, setCurrentTab } = useTab();
+  const today = toDateString(new Date());
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [editRecordId, setEditRecordId] = useState(null);
 
   const [categoryListInitial, setCategoryListInitial] = useState(false);
-  const [isEdit, setIsEdit] = useState(false)
+  const [isEdit, setIsEdit] = useState(false);
 
-  const [tableList, setTableList] = useState([])
-  const [deleteTableList, setDeleteTableList] = useState([])
-  const [categoryList, setCategoryList] = useState([])
-  const [categoryPath, setCategoryPath] = useState(['重量訓練'])
+  const [tableList, setTableList] = useState([]);
+  const [deleteTableList, setDeleteTableList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryPath, setCategoryPath] = useState(["重量訓練"]);
 
-  const [bodydata, setBodydata] = useState(initialBodydata)
+  const [bodydata, setBodydata] = useState(initialBodydata);
   const [recordInfo, setRecordInfo] = useState(initialRecordInfo);
 
-
   function handleCategoryListClick(category) {
-    if(category.isAddable === 1){
-      setTableList(prev => {
+    if (category.isAddable === 1) {
+      setTableList((prev) => {
         return [
           ...prev,
           {
@@ -62,136 +65,139 @@ const RecordPage = () => {
             weight: 0,
           },
         ];
-      })
+      });
     } else {
-      setCategoryPath(prev => {
-        return [
-          ...prev,
-          category.name
-        ]
-      })
+      setCategoryPath((prev) => {
+        return [...prev, category.name];
+      });
     }
   }
 
   function handleRemoveWorkoutClick(index) {
-    const updateList = [...tableList]
-    const deleteItem = updateList.splice(index, 1)
+    const updateList = [...tableList];
+    const deleteItem = updateList.splice(index, 1);
 
     if (isEdit) {
-      setDeleteTableList(prev => {
-        return [
-          ...prev,
-          ...deleteItem
-        ]
-      })
+      setDeleteTableList((prev) => {
+        return [...prev, ...deleteItem];
+      });
     }
 
-    setTableList(updateList)
+    setTableList(updateList);
   }
 
   function handleCategoryPathClick(index) {
     if (index === 0) {
-      setCategoryPath([])
+      setCategoryPath([]);
     } else {
-      const newCategoryPath = categoryPath.slice(0, index)
+      const newCategoryPath = categoryPath.slice(0, index);
 
-      setCategoryPath(newCategoryPath)
+      setCategoryPath(newCategoryPath);
     }
   }
 
   function handleRecordListChange(e, index) {
-    const {name, value} = e.target
+    const { name, value } = e.target;
 
     const newTableList = tableList.map((item, i) => {
-      if(i === index) {
+      if (i === index) {
         return {
           ...item,
-          [name]: value
-        }
+          [name]: value,
+        };
       }
 
-      return item
-    })
+      return item;
+    });
 
-    setTableList(newTableList)
+    setTableList(newTableList);
   }
 
   function handleBodydataChange(e) {
-    const {name, value} = e.target
+    const { name, value } = e.target;
 
-    if (name === 'date') {
-      setBodydata(prev => {
+    if (name === "date") {
+      setBodydata((prev) => {
         return {
           ...prev,
-          date: value
-        }
-      })
-    }else {
-      setBodydata(prev => {
+          date: value,
+        };
+      });
+    } else {
+      setBodydata((prev) => {
         return {
           ...prev,
-          [name]: Number(value) === 0 ? undefined : Number(value)
-        }
-      })
+          [name]: Number(value) === 0 ? undefined : Number(value),
+        };
+      });
     }
   }
 
-
   const handleCreateWorkoutRecordClick = async () => {
     try {
-      const { recordName, date, workoutTime } = recordInfo
-      const newWorkoutRecord = await createWorkoutRecord(recordName, date, workoutTime);
+      const { recordName, date, workoutTime } = recordInfo;
+      const newWorkoutRecord = await createWorkoutRecord(
+        recordName,
+        date,
+        workoutTime
+      );
 
       const workoutRecordId = newWorkoutRecord.data.data?.id || null;
 
       if (workoutRecordId) {
         await createWorkoutRecordDetail(workoutRecordId, tableList);
 
-        navigate(`/record/${workoutRecordId}`, { state: { mode: 'WeekCalendar', currentTab }});
+        navigate(`/record/${workoutRecordId}`, {
+          state: { mode: "WeekCalendar", currentTab },
+        });
       } else {
-        throw new Error('Can not create new record!')
+        throw new Error("Can not create new record!");
       }
     } catch (error) {
       console.error("[Create Workout Record Failed]:", error);
     }
-  }
+  };
 
   const handleRecordInfoChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
-    setRecordInfo(prev => {
+    setRecordInfo((prev) => {
       return {
         ...prev,
-        [name]: value
-      }
-    })
-  }
+        [name]: value,
+      };
+    });
+  };
 
   const handleEditWorkoutRecordClick = async () => {
     await updateWorkoutRecord(editRecordId, recordInfo);
     await updateWorkoutDetail(editRecordId, tableList);
-    await deleteWorkoutDetail(editRecordId, deleteTableList)
+    await deleteWorkoutDetail(editRecordId, deleteTableList);
 
-    navigate(`/record/${editRecordId}`, { state: { mode: 'WeekCalendar', currentTab }})
-  }
+    navigate(`/record/${editRecordId}`, {
+      state: { mode: "WeekCalendar", currentTab },
+    });
+  };
 
   const handleCreateBodydataRecordClick = async () => {
-    const result = await createBodydataRecord(bodydata)
+    const result = await createBodydataRecord(bodydata);
 
-    const { status } = result
+    const { status } = result;
 
-    if (status === 'success') {
-      const { id } = result.data
+    if (status === "success") {
+      const { id } = result.data;
 
       Swal.fire({
-         title: "新增成功",
-         icon: "success",
-         showConfirmButton: false,
-         timer: 1000,
-         position: "top",
-       });
+        title: "新增成功",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1000,
+        position: "top",
+      });
 
-      navigate(`/record/${id}`, { state: { mode: 'WeekCalendar', currentTab }})
+      navigate(`/record/${id}`, {
+        state: { mode: "WeekCalendar", currentTab },
+      });
     } else {
       Swal.fire({
         title: "新增失敗",
@@ -202,25 +208,63 @@ const RecordPage = () => {
         position: "top",
       });
     }
-  }
+  };
+
+  const handleEditBodydataRecordClick = async () => {
+    const result = await updateBodydataRecord(editRecordId, bodydata);
+
+    const { status } = result;
+
+    if (status === "success") {
+      Swal.fire({
+        title: "修改成功",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1000,
+        position: "top",
+      });
+
+      navigate(`/record/${editRecordId}`, {
+        state: { mode: "WeekCalendar", currentTab },
+      });
+    } else {
+      Swal.fire({
+        title: "修改失敗",
+        icon: "error",
+        showConfirmButton: false,
+        text: result.detail,
+        timer: 1200,
+        position: "top",
+      });
+    }
+  };
 
   useEffect(() => {
     async function setInitialWorkoutCategory() {
-      const categories = await getWorkoutCategories()
+      const categories = await getWorkoutCategories();
 
-      initialCategoryList = categories
+      initialCategoryList = categories;
       setCategoryListInitial(true);
     }
 
-    setInitialWorkoutCategory()
+    setInitialWorkoutCategory();
   }, []);
 
-   useEffect(() => {
-     if (location.state !== null) {
-       setEditRecordId(location.state.workoutRecordId);
-       setIsEdit(location.state.isEdit);
-     }
-   }, []);
+  useEffect(() => {
+    if (location.state !== null) {
+      if (location.state.currentTab) {
+        setCurrentTab(location.state.currentTab);
+      }
+
+      if (location.state.recordId) {
+        setEditRecordId(location.state.recordId);
+      }
+
+      if (location.state.isEdit) {
+        setIsEdit(location.state.isEdit);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     function categoryListFilter() {
@@ -241,30 +285,43 @@ const RecordPage = () => {
 
   useEffect(() => {
     if (!isEdit) {
-      return
+      return;
     }
 
-    async function getWorkoutRecordDetail(recordId) {
-      const result = await getWorkoutRecord(recordId);
+    if (currentTab === "Workout") {
+      async function getWorkoutRecordDetail(recordId) {
+        const result = await getWorkoutRecord(recordId);
 
-      setTableList(result.data.data.WorkoutDetails);
-      setRecordInfo({
-        recordName: result.data.data.name,
-        date: result.data.data.date,
-        workoutTime: result.data.data.workoutTime,
-      });
+        setTableList(result.data.WorkoutDetails);
+        setRecordInfo({
+          recordName: result.data.name,
+          date: result.data.date,
+          workoutTime: result.data.workoutTime,
+        });
+      }
+
+      getWorkoutRecordDetail(editRecordId);
+    } else {
+      async function getBodyRecord() {
+        const result = await getBodydataRecord(editRecordId);
+
+        setBodydata(result.data);
+      }
+
+      getBodyRecord();
     }
-
-    getWorkoutRecordDetail(editRecordId);
-  }, [isEdit])
+  }, [isEdit]);
 
   return (
     <>
       <CreateBodydataRecord
         currentTab={currentTab}
         today={today}
+        isEdit={isEdit}
+        bodydata={bodydata}
         onBodydataChange={handleBodydataChange}
         onCreateRecordClick={handleCreateBodydataRecordClick}
+        onEditRecordClick={handleEditBodydataRecordClick}
       ></CreateBodydataRecord>
       <CreateWorkoutRecord
         currentTab={currentTab}
@@ -286,4 +343,4 @@ const RecordPage = () => {
   );
 };
 
-export default RecordPage
+export default RecordPage;

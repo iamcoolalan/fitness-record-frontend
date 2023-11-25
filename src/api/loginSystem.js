@@ -11,7 +11,7 @@ const login = async ({ email, password }) => {
 
     return data
   } catch (error) {
-    console.log('[Login filed]:', error)
+    console.error('[Login filed]:', error)
     
     return error.response.data
   }
@@ -46,7 +46,7 @@ const checkPermission = async (token) => {
 
     return data.status === 'success'
   } catch (error) {
-    console.log('[Check Token Failed]: ', error)
+    console.error('[Check Token Failed]: ', error)
     
     return error.response.data
   }
