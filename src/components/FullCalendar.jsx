@@ -13,9 +13,9 @@ const countRecordByData = (data) => {
   return counts;
 };
 
-const FullCalender = ({ onClick, mode, startDate, month, today, data }) => {
+const FullCalender = ({ onClick, mode, startDate, month, today, records }) => {
   const isNotFullCalendarMode = mode !== "FullCalender";
-  const counts = countRecordByData(data);
+  const counts = countRecordByData(records);
 
   return (
     <div

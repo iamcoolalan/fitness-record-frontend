@@ -43,10 +43,12 @@ const RecordListMode = ({
                 onClick={() => onRecordDetailClick(record.id)}
               >
                 <div className="flex flex-col">
-                  <h2 className="text-2xl">{record.name}</h2>
-                  <h2 className="text-xl">
-                    {formatWorkoutTime(record.workoutTime)}
-                  </h2>
+                  <h2 className="text-2xl">{record.name || "BodyRecord"}</h2>
+                  {record.workoutTime && (
+                    <h2 className="text-xl">
+                      {formatWorkoutTime(record.workoutTime)}
+                    </h2>
+                  )}
                 </div>
                 <div>
                   <p className="text-2xl">{record.date}</p>

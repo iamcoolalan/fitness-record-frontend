@@ -3,9 +3,9 @@ import clsx from 'clsx'
 
 import { CommonInput } from '../components'
 
-const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
+const TargetInfo = ({ currentTab, userTarget, lastRecord, onTargetChange }) => {
   const isNotTargetTab = currentTab !== "Target";
-  // 前次目標改成 最近一次記錄身體數值的資料
+
   return (
     <div
       className={clsx(
@@ -19,8 +19,11 @@ const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
           <hr className="border-t-2 border-slate-600" />
           <hr className="border-t-4 border-slate-600 mt-1" />
         </div>
-        <div className="col-span-2 flex flex-col">
-          <h1 className="text-xl text-slate-400 font-semibold">近一次數據測量</h1>
+        <div className="col-span-4 flex flex-col">
+          <h1 className="text-xl text-slate-400 font-semibold">
+            近一次數據測量
+            <span className='text-base'>  ({lastRecord.date})</span>
+          </h1>
           <hr className="border-t-2 border-slate-400" />
           <hr className="border-t-4 border-slate-400 mt-1" />
         </div>
@@ -36,12 +39,12 @@ const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
           onChange={onTargetChange}
         ></CommonInput>
         <CommonInput
-          className="col-span-2"
+          className="col-span-4"
           inputClassName="border-gray-400 cursor-not-allowed"
           label="身高"
           name="previousTargetHeight"
           type="number"
-          value={0}
+          value={lastRecord.height}
           disabled={true}
         ></CommonInput>
       </div>
@@ -56,12 +59,12 @@ const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
           onChange={onTargetChange}
         ></CommonInput>
         <CommonInput
-          className="col-span-2"
+          className="col-span-4"
           inputClassName="border-gray-400 cursor-not-allowed"
           label="體重"
           name="previousTargetHeight"
           type="number"
-          value={0}
+          value={lastRecord.weight}
           disabled={true}
         ></CommonInput>
       </div>
@@ -76,12 +79,12 @@ const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
           onChange={onTargetChange}
         ></CommonInput>
         <CommonInput
-          className="col-span-2"
+          className="col-span-4"
           inputClassName="border-gray-400 cursor-not-allowed"
           label="肌肉量"
           name="previousTargetSkeletalMuscle"
           type="number"
-          value={0}
+          value={lastRecord.skeletalMuscle}
           disabled={true}
         ></CommonInput>
       </div>
@@ -96,12 +99,12 @@ const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
           onChange={onTargetChange}
         ></CommonInput>
         <CommonInput
-          className="col-span-2"
+          className="col-span-4"
           inputClassName="border-gray-400 cursor-not-allowed"
           label="體脂率"
           name="previousTargetBodyFat"
           type="number"
-          value={0}
+          value={lastRecord.bodyFat}
           disabled={true}
         ></CommonInput>
       </div>
@@ -116,12 +119,12 @@ const TargetInfo = ({ currentTab, userTarget, onTargetChange}) => {
           onChange={onTargetChange}
         ></CommonInput>
         <CommonInput
-          className="col-span-2"
+          className="col-span-4"
           inputClassName="border-gray-400 cursor-not-allowed"
           label="內臟脂肪等級"
           name="previousVisceralFatLevel"
           type="number"
-          value={0}
+          value={lastRecord.visceralFatLevel}
           disabled={true}
         ></CommonInput>
       </div>

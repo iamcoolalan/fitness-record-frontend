@@ -1,95 +1,97 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import { faker } from '@faker-js/faker'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import clsx from 'clsx'
 
-import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext.jsx'
+import { useTab } from '../contexts/MainLayoutTabContext.jsx'
 import { MonthSelection, QuarterSelection, CustomizeSelection } from '../components'
 import { getQuarter } from '../helpers/formatHelpers.js'
 
-const data = [
- {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- },
-  {
-   date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-   height: faker.number.int({ min: 130, max: 210 }),
-   weight: faker.number.int({ min: 35, max: 150}),
-   skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-   bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-   visceralFatLevel: faker.number.int({ min: 1, max: 10 })
- }
-];
+import { getBodydataRecords } from '../api/bodydataRecord.js'
+
+// const data = [
+//  {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  },
+//   {
+//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
+//    height: faker.number.int({ min: 130, max: 210 }),
+//    weight: faker.number.int({ min: 35, max: 150}),
+//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
+//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
+//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
+//  }
+// ];
 
 const defaultDataTab = {
   Bodydata: [
@@ -116,12 +118,13 @@ const getInitialTimeRange = () => {
 }
 
 const DataPage = () => {
-  const { currentTab } = useContext(MainLayoutTabContext);
+  const { currentTab } = useTab();
 
   const [dataTab, setDataTab] = useState(defaultDataTab[currentTab]);
   const [chart, setChart] = useState(defaultDataTab[currentTab][0].value);
   const [timeRangeOption, setTimeRangeOption] = useState('month')
   const [timeRange, setTimeRange] = useState(getInitialTimeRange());
+  const [data, setData] = useState([])
 
   function handleChartClick(tab) {
     setChart(tab)
@@ -210,6 +213,16 @@ const DataPage = () => {
     setDataTab(defaultDataTab[currentTab])
     setChart(defaultDataTab[currentTab][0].value)
   }, [currentTab])
+
+  useEffect(() => {
+    async function getRecords() {
+      const result = await getBodydataRecords(0, 0, timeRange.end, timeRange.start)
+
+      setData(result.data.rows);
+    }
+
+    getRecords()
+  }, [timeRange])
 
   return (
     <div className="grid grid-cols-12 grid-rows-[8%_77%_12%] h-full w-full gap-3 p-3">

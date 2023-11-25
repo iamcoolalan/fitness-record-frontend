@@ -28,6 +28,7 @@ const defaultTabList = {
 const MainLayout = ({ children }) => {
   const [tabList, setTablist] = useState(defaultTabList.homepage)
   const [currentTab, setCurrentTab] = useState(tabList[0].name)
+  const [isDisable, setIsDisable] = useState(false)
   
   const navigate = useNavigate()
   const location = useLocation()
@@ -106,12 +107,13 @@ const MainLayout = ({ children }) => {
         </button>
       </div>
       <div className="col-span-9 p-5">
-        <MainLayoutTabContext.Provider value={{ currentTab }}>
+        <MainLayoutTabContext.Provider value={{ currentTab, setCurrentTab, setIsDisable }}>
           <div className="flex flex-col items-center h-full gap-8">
             <Tab
               tablist={tabList}
               currentTab={currentTab}
               onClick={handleTabOnClick}
+              isDisable={isDisable}
             ></Tab>
             <div className="border-4 border-gray-300 ring-8 ring-gray-600 ring-offset-8 rounded-xl p-2 h-[98%] w-[98%]">
               {children}

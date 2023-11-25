@@ -16,7 +16,7 @@ export const getWorkoutRecords = async (
       },
     });
 
-    return res;
+    return res.data;
   } catch (error) {
     console.error("[Get Workout Records Failed]:", error);
     return error;
@@ -29,7 +29,7 @@ export const getWorkoutRecord = async (recordId) => {
       `${baseURL}/workout-record/${recordId}`
     );
 
-    return res;
+    return res.data;
   } catch (error) {
     console.error("[Get Workout Record Failed]:", error);
     return error;

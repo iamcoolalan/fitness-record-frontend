@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Swal from "sweetalert2";
 
 import { AccountInfo, TargetInfo } from "../components"
-import { MainLayoutTabContext } from "../contexts/MainLayoutTabContext"
+import { useTab } from "../contexts/MainLayoutTabContext"
 
+import { getBodydataRecords } from "../api/bodydataRecord";
 import {
   getUserInfo,
   getUserTarget,
@@ -12,7 +13,7 @@ import {
 } from "../api/user";
 
 const ProfilePage = () => {
-  const { currentTab } = useContext(MainLayoutTabContext);
+  const { currentTab } = useTab()
   const title = currentTab === 'Account'? 'Personal Detail' : 'Target'
 
   const [userInfo, setUserInfo] = useState({
@@ -30,6 +31,13 @@ const ProfilePage = () => {
     targetSkeletalMuscle: 0,
     targetBodyFat: 0,
     targetVisceralFatLevel: 0
+  });
+  const [lastBodydataRecord, setLastBodydataRecord] = useState({
+    height: 0,
+    weight: 0,
+    skeletalMuscle: 0,
+    bodyFat: 0,
+    visceralFatLevel: 0,
   });
 
   const handleInputChange = (e) => {
@@ -123,6 +131,16 @@ const ProfilePage = () => {
     }
   }, [currentTab]);
 
+  useEffect(() => {
+    async function fetchLastBodyDataRecord () {
+      const result = await getBodydataRecords(1);
+
+      setLastBodydataRecord(result.data.rows[0]);
+    }
+
+    fetchLastBodyDataRecord()
+  }, [userTarget])
+
   return (
     <div className="flex flex-col gap-2 h-full w-full relative">
       <div className="flex flex-col gap-2 px-3 pt-2">
@@ -132,6 +150,7 @@ const ProfilePage = () => {
       <TargetInfo
         currentTab={currentTab}
         userTarget={userTarget}
+        lastRecord={lastBodydataRecord}
         onTargetChange={handleInputChange}
       ></TargetInfo>
       <AccountInfo

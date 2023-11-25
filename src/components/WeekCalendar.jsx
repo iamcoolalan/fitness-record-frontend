@@ -95,12 +95,12 @@ const WeekCalendar = ({
                 <div className="grid grid-cols-12 gap-1">
                   <div
                     key={record.id}
-                    className="col-span-11 flex justify-between items-center border-4 border-slate-300 p-1 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer"
+                    className="col-span-11 flex justify-between items-center border-4 border-slate-300 p-2 rounded-lg shadow-lg hover:bg-yellow-200 hover:shadow-slate-600 hover:border-zinc-800 cursor-pointer"
                     onClick={() => onRecordDetailClick(record.id)}
                   >
-                    <h2 className="text-2xl">{record.name}</h2>
+                    <h2 className="text-2xl">{record.name || "BodyRecord"}</h2>
                     <h2 className="text-2xl">
-                      {formatWorkoutTime(record.workoutTime)}
+                      {record.workoutTime ? formatWorkoutTime(record.workoutTime) : ''}
                     </h2>
                   </div>
                   <div

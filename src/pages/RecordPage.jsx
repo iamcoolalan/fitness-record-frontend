@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { CreateWorkoutRecord, CreateBodydataRecord } from '../components';
 import { toDateString } from '../helpers/formatHelpers';
-import { MainLayoutTabContext } from '../contexts/MainLayoutTabContext';
+import { useTab } from '../contexts/MainLayoutTabContext';
 
 import {
   createWorkoutRecord,
@@ -33,7 +33,7 @@ const initialRecordInfo = {
 };
 
 const RecordPage = () => {
-  const { currentTab } = useContext(MainLayoutTabContext)
+  const { currentTab } = useTab();
   const today = toDateString(new Date())
   const navigate = useNavigate()
   const location = useLocation()

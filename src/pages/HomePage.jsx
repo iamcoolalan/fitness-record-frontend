@@ -1,29 +1,38 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import addDays from "date-fns/addDays";
 import subDays from "date-fns/subDays";
 
-import { FullCalender, WeekCalendar, RecordListMode, Modal } from "../components";
+import {
+  FullCalender,
+  WeekCalendar,
+  RecordListMode,
+  Modal,
+} from "../components";
 import { getMonthAbbreviation } from "../helpers/formatHelpers";
+import { useTab } from "../contexts/MainLayoutTabContext";
+
 import { getWorkoutRecords, deleteWorkoutRecord } from "../api/workoutRecord";
-import { useLocation, useNavigate } from "react-router-dom";
+import { getBodydataRecords } from "../api/bodydataRecord";
 
 const HomePage = () => {
-  const DEFAULT_LIMIT = 5
+  const DEFAULT_LIMIT = 5;
 
   const today = new Date();
   const startDayForDayModeInitialValue = new Date(today);
   startDayForDayModeInitialValue.setDate(today.getDate() - 3);
-  
-  const navigate = useNavigate()
-  const location = useLocation()
+
+  const { currentTab, setCurrentTab } = useTab();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const yearInputRef = useRef(null);
   const monthInputRef = useRef(null);
 
   const [mode, setMode] = useState("FullCalender");
-  const [recordsCount, setRecordsCount] = useState(0)
-  const [selectedPage, setSelectedPage] = useState(1)
+  const [recordsCount, setRecordsCount] = useState(0);
+  const [selectedPage, setSelectedPage] = useState(1);
   const [startDateForFullCalender, setForFullCalender] = useState(new Date());
   const [startDayForDayMode, setStartDayForDayMode] = useState(
     startDayForDayModeInitialValue
@@ -31,15 +40,15 @@ const HomePage = () => {
 
   const [isYearEdit, setIsYearEdit] = useState(false);
   const [isMonthEdit, setIsMonthEdit] = useState(false);
-  const [modeUpdate, setModeUpdate] = useState(false)
-  const [triggerGetRecords, setTriggerGetRecords] = useState(false)
-  
+  const [modeUpdate, setModeUpdate] = useState(false);
+  const [triggerGetRecords, setTriggerGetRecords] = useState(false);
+
   const [records, setRecords] = useState([]);
   const [modalState, setModalState] = useState({
     isOpen: false,
     message: null,
     recordId: null,
-    recordPositionIndex: null
+    recordPositionIndex: null,
   });
   const [selectedDate, setSelectedDate] = useState({
     year: today.getFullYear(),
@@ -48,7 +57,6 @@ const HomePage = () => {
   });
   const [monthInputValue, setMonthInputValue] = useState(selectedDate.month);
   const [yearInputValue, setYearInputValue] = useState(selectedDate.year);
-  
 
   function handleYearLeftClick() {
     setSelectedDate((prev) => {
@@ -207,7 +215,7 @@ const HomePage = () => {
 
   function handleChangeModeClick(mode) {
     setMode(mode);
-    setSelectedPage(1)
+    setSelectedPage(1);
   }
 
   function handleFullCalendarClick(date) {
@@ -230,19 +238,18 @@ const HomePage = () => {
   }
 
   const handleRecordDetailClick = (recordId) => {
-    navigate(`/record/${recordId}`, { state: { mode } })
-  }
+    navigate(`/record/${recordId}`, { state: { mode, currentTab } });
+  };
 
   const handleSelectPageClick = (page) => {
-    setSelectedPage(page)
-  }
+    setSelectedPage(page);
+  };
 
   const handleDeleteRecordClick = async () => {
-    const result = await deleteWorkoutRecord(modalState.recordId)
-    
+    const result = await deleteWorkoutRecord(modalState.recordId);
 
-    if (result === 'success') {
-      setTriggerGetRecords(!triggerGetRecords)
+    if (result === "success") {
+      setTriggerGetRecords(!triggerGetRecords);
     }
 
     setModalState((prev) => {
@@ -253,8 +260,7 @@ const HomePage = () => {
         recordPositionIndex: null,
       };
     });
-
-  }
+  };
 
   const handleOpenDeleteModal = (recordId, recordPositionIndex) => {
     setModalState((prev) => {
@@ -273,40 +279,85 @@ const HomePage = () => {
         isOpen: false,
         message: null,
         recordId: null,
-        recordPositionIndex: null
+        recordPositionIndex: null,
       };
     });
   };
 
+  useLayoutEffect(() => {
+    if (location.state !== null) {
+      if (location.state.currentTab) {
+        setCurrentTab(location.state.currentTab);
+      }
+
+      if (location.state.date) {
+        setSelectedDate({
+          year: location.state.date.getFullYear(),
+          month: location.state.date.getMonth() + 1,
+          date: location.state.date.getDate(),
+        });
+      }
+
+      if (location.state.mode) {
+        setMode(location.state.mode);
+        setModeUpdate(true);
+      }
+    } else {
+      setModeUpdate(true);
+    }
+  }, [location]);
+
   useEffect(() => {
     if (modeUpdate) {
       const limit = mode === "FullCalender" ? 0 : DEFAULT_LIMIT;
-      let startDate  
-      let endDate
-  
+      let startDate;
+      let endDate;
+
       if (mode === "WeekCalendar") {
-        startDate = undefined
-        endDate = new Date(selectedDate.year, selectedDate.month - 1, selectedDate.date);
+        startDate = undefined;
+        endDate = new Date(
+          selectedDate.year,
+          selectedDate.month - 1,
+          selectedDate.date
+        );
       } else {
         startDate = new Date(selectedDate.year, selectedDate.month - 1, 1);
         endDate = new Date(selectedDate.year, selectedDate.month, 0);
       }
-  
-      const getRecords = async () => {
-        const result = await getWorkoutRecords(
-          limit,
-          selectedPage,
-          endDate,
-          startDate
-        );
 
-        setRecordsCount(result.data.data.count);
-        setRecords(result.data.data.rows);
+      const getRecords = async () => {
+        let result;
+
+        if (currentTab === "Workout") {
+          result = await getWorkoutRecords(
+            limit,
+            selectedPage,
+            endDate,
+            startDate
+          );
+        } else {
+          result = await getBodydataRecords(
+            limit,
+            selectedPage,
+            endDate,
+            startDate
+          );
+        }
+
+        setRecordsCount(result.data.count);
+        setRecords(result.data.rows);
       };
-  
+
       getRecords();
     }
-  }, [selectedDate, selectedPage, mode, modeUpdate, triggerGetRecords]);
+  }, [
+    selectedDate,
+    selectedPage,
+    mode,
+    modeUpdate,
+    triggerGetRecords,
+    currentTab,
+  ]);
 
   useEffect(() => {
     if (mode !== "FullCalender") {
@@ -352,25 +403,6 @@ const HomePage = () => {
     );
     getStartDate(currentSelectDate);
   }, [selectedDate, mode]);
-
-  useLayoutEffect(() => {
-    if (location.state !== null) {
-       if (location.state.date) {
-         setSelectedDate({
-           year: location.state.date.getFullYear(),
-           month: location.state.date.getMonth() + 1,
-           date: location.state.date.getDate(),
-         });
-       }
-
-      if (location.state.mode) {
-        setMode(location.state.mode);
-        setModeUpdate(true)
-      }
-    } else {
-      setModeUpdate(true);
-    }
-  }, [location])
 
   return (
     <div className="w-full h-full flex flex-col gap-1" id="homepage">
@@ -502,7 +534,7 @@ const HomePage = () => {
         startDate={startDateForFullCalender}
         month={selectedDate.month}
         today={today}
-        data={records}
+        records={records}
       ></FullCalender>
       <WeekCalendar
         mode={mode}
@@ -519,7 +551,11 @@ const HomePage = () => {
         onOpenDeleteModalClick={handleOpenDeleteModal}
       ></WeekCalendar>
       {modalState.isOpen && (
-        <Modal onCloseDeleteModalClick={handleCloseDeleteModal} onDeleteRecordClick={handleDeleteRecordClick} message={modalState.message}></Modal>
+        <Modal
+          onCloseDeleteModalClick={handleCloseDeleteModal}
+          onDeleteRecordClick={handleDeleteRecordClick}
+          message={modalState.message}
+        ></Modal>
       )}
     </div>
   );
