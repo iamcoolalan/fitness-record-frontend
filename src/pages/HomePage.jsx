@@ -14,7 +14,7 @@ import { getMonthAbbreviation } from "../helpers/formatHelpers";
 import { useTab } from "../contexts/MainLayoutTabContext";
 
 import { getWorkoutRecords, deleteWorkoutRecord } from "../api/workoutRecord";
-import { getBodydataRecords } from "../api/bodydataRecord";
+import { getBodydataRecords, deleteBodydataRecord } from "../api/bodydataRecord";
 
 const HomePage = () => {
   const DEFAULT_LIMIT = 5;
@@ -246,7 +246,13 @@ const HomePage = () => {
   };
 
   const handleDeleteRecordClick = async () => {
-    const result = await deleteWorkoutRecord(modalState.recordId);
+    let result 
+
+    if (currentTab === 'Workout') {
+      result = await deleteWorkoutRecord(modalState.recordId);
+    } else {
+      result = await deleteBodydataRecord(modalState.recordId);
+    }
 
     if (result === "success") {
       setTriggerGetRecords(!triggerGetRecords);

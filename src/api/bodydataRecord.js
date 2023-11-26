@@ -65,3 +65,14 @@ export const updateBodydataRecord = async (recordId, updateData) => {
     return error.response.data;
   }
 }
+
+export const deleteBodydataRecord = async (recordId) => {
+  try {
+    const res = await axiosInstance.delete(`${baseURL}/bodydata-record/${recordId}`)
+
+    return res.data.status
+  } catch (error) {
+    console.error("[Update Bodydata Record Failed]:", error);
+    return error.response.data;
+  }
+}
