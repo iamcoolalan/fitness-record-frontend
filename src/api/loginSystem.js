@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = 'http://localhost:3001/api'
+const baseURL = 'https://www.fitness-record.com/api'
 
 const login = async ({ email, password }) => {
   try {
