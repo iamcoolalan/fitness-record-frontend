@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/https//iamcoolalan.github.io/fitness-record-frontend/static/css/main.c239e9b0.css",
+    "main.js": "/https//iamcoolalan.github.io/fitness-record-frontend/static/js/main.e30d58c7.js",
+    "static/js/787.220add34.chunk.js": "/https//iamcoolalan.github.io/fitness-record-frontend/static/js/787.220add34.chunk.js",
+    "index.html": "/https//iamcoolalan.github.io/fitness-record-frontend/index.html",
+    "main.c239e9b0.css.map": "/https//iamcoolalan.github.io/fitness-record-frontend/static/css/main.c239e9b0.css.map",
+    "main.e30d58c7.js.map": "/https//iamcoolalan.github.io/fitness-record-frontend/static/js/main.e30d58c7.js.map",
+    "787.220add34.chunk.js.map": "/https//iamcoolalan.github.io/fitness-record-frontend/static/js/787.220add34.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c239e9b0.css",
+    "static/js/main.e30d58c7.js"
+  ]
+}
