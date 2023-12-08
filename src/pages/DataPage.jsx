@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import moment from 'moment'
-import { faker } from '@faker-js/faker'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import clsx from 'clsx'
 
@@ -9,89 +7,6 @@ import { MonthSelection, QuarterSelection, CustomizeSelection } from '../compone
 import { getQuarter } from '../helpers/formatHelpers.js'
 
 import { getBodydataRecords } from '../api/bodydataRecord.js'
-
-// const data = [
-//  {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  },
-//   {
-//    date: moment(faker.date.between({ from: '2023-10-01T00:00:00.000Z', to: '2023-10-31T00:00:00.000Z' })).format('YYYY-MM-DD'),
-//    height: faker.number.int({ min: 130, max: 210 }),
-//    weight: faker.number.int({ min: 35, max: 150}),
-//    skeletalMuscle: faker.number.int({ min: 15, max: 50 }),
-//    bodyFat: faker.number.float({ min: 0.03, max: 0.5, precision: 0.01 }),
-//    visceralFatLevel: faker.number.int({ min: 1, max: 10 })
-//  }
-// ];
 
 const defaultDataTab = {
   Bodydata: [
