@@ -65,7 +65,7 @@ const MainLayout = ({ children }) => {
 
     setTablist(newTabList);
 
-    if (newTabList.length > 0) {
+    if (newTabList.length > 0 && (!location.state?.currentTab)) {
       setCurrentTab(newTabList[0].name);
     }
   }, [location.pathname]);

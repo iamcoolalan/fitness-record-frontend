@@ -112,7 +112,7 @@ const SignUpPage = () => {
         title: '登入失敗',
         icon: 'error',
         showConfirmButton: false,
-        text: response.summary,
+        text: response.detail,
         timer: 1200,
         position: 'top'
       })
@@ -142,14 +142,14 @@ const SignUpPage = () => {
               onChange={handleEmailChange}
             ></CommonInput>
             <CommonInput
-              type="text"
+              type="password"
               label="Password"
               name="password"
               placeholder="請輸入密碼"
               onChange={handlePasswordChange}
             ></CommonInput>
             <CommonInput
-              type="text"
+              type="password"
               label="Password Check"
               name="passwordCheck"
               placeholder="請再次輸入密碼"
@@ -164,6 +164,7 @@ const SignUpPage = () => {
               className="col-span-1"
               title="Gender"
               name="gender"
+              userGender={gender}
               options={genderOptions}
               onChange={handleGenderChange}
             ></RadioInput>

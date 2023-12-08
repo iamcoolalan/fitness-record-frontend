@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { useTab } from "../contexts/MainLayoutTabContext";
 
 const RecordListMode = ({
-  mode,
   records,
   recordsCount,
   selectedPage,
@@ -14,7 +13,6 @@ const RecordListMode = ({
   onSelectPageClick,
   onOpenDeleteModalClick,
 }) => {
-  const isNotListMode = mode !== "List";
   const { pages, currentPage, nextPage, previousPage } = getPagination(
     5,
     selectedPage,
@@ -30,10 +28,7 @@ const RecordListMode = ({
 
   return (
     <div
-      className={clsx(
-        "grid grid-rows-[90%_10%] border-4 border-gray-600 rounded-lg h-full",
-        { hidden: isNotListMode }
-      )}
+      className="grid grid-rows-[90%_10%] border-4 border-gray-600 rounded-lg h-full"
     >
       <div className="row-span-1 grid grid-rows-5 gap-2 border-b-4 border-gray-600 p-1">
         {records.map((record, index) => {

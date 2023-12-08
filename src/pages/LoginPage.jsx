@@ -26,12 +26,12 @@ const LoginPage = () => {
     setPassword(value);
   }
 
-  async function handleLoginClick() {
-    if (email.length === 0) {
+  async function handleLogin() {
+    if (email?.length === 0) {
       return
     }
 
-    if (password.length === 0) {
+    if (password?.length === 0) {
       return
     }
 
@@ -55,7 +55,7 @@ const LoginPage = () => {
         title: '登入失敗',
         icon: 'error',
         showConfirmButton: false,
-        text: response.summary,
+        text: response?.detail ? response.detail : response.summary,
         timer: 1200,
         position: 'top'
       })
@@ -63,7 +63,14 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 h-screen mx-auto font-mono">
+    <div className="grid grid-cols-12 h-screen mx-auto font-mono"
+    tabIndex="0"
+      onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleLogin()
+                }
+              }}
+    >
       <div className="col-span-4 relative">
         <div className="flex flex-col justify-center items-center gap-5 w-full absolute top-[5%]">
           <h1 className="text-4xl font-semibold">Fitness Record</h1>
@@ -87,7 +94,7 @@ const LoginPage = () => {
           <div className="flex flex-row-reverse w-4/5">
             <button
               className="text-2xl border-4 border-zinc-800 rounded w-1/3 hover:bg-yellow-200"
-              onClick={handleLoginClick}
+              onClick={handleLogin}
             >
               Login
             </button>

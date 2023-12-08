@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# Fitness Record
+這是一個基於React.js和Tailwind打造的健身紀錄網頁應用程式前端畫面，並使用axios串接自製的API([我的後端repo連結](https://github.com/iamcoolalan/fitness-record-backend))。使用者可以使用此網站，查看、記錄、編輯、刪除自己的訓練與身體數據紀錄，並且透過查看數據，分析自己的訓練狀況與品質。
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Deploy on Github Page
+[網頁連結](https://iamcoolalan.github.io/fitness-record-frontend/)
 
-## Available Scripts
+## 目錄
 
-In the project directory, you can run:
+- [Feature - 產品功能](#feature---產品功能)
+- [Demo - 功能展示](#demo-功能展示)
+- [Installation- 安裝](#installation---安裝)
+- [Package - 使用套件](#package---使用套件)
+- [Creator - 創作者](#creator---創作者)
 
-### `npm start`
+## Feature - 產品功能
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 登入系統
+  - 使用者可以透過自己註冊的資訊登入
+  - 使用者可以註冊
+- 使用者相關功能
+  - 使用者可以查看/修改 基本資料
+  - 使用者可以查看/修改 目標
+- 訓練紀錄相關功能
+  - 使用者可以查看/新增/修改/刪除 訓練紀錄
+  - 使用者可以查看特定訓練紀錄
+  - 使用者可以查看/新增/修改/刪除 訓練紀錄細項
+- 身體數據記錄相關功能
+  - 使用者可以查看/新增/修改/刪除 身體數據紀錄
+  - 使用者可以查看特定身體數據紀錄
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Demo 功能展示
 
-### `npm test`
+### 登入系統
+![Login](./README/login.gif)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 使用者功能
 
-### `npm run build`
+### 訓練紀錄
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 身體數據紀錄
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Installation - 安裝
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. 請先確認已安裝好 [fitness record後端專案](https://github.com/iamcoolalan/fitness-record-backend)
+2. 將專案 clone 至本地
+3. 在本地開啟後，透過終端機進入資料夾，輸入 :
 
-### `npm run eject`
+    ```bash
+    npm install
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. 在終端機中輸入以下指令啟動程式
+    ##### * 請先啟動後端程式
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+     ```bash
+    npm run start
+    ```
+5. 若在終端機中看見此行訊息則代表順利運行，打開瀏覽器進入下列網址
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    ```bash
+    App is running on http://localhost:3000
+    ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+6. 若欲暫停使用
 
-## Learn More
+    ```bash
+    ctrl + c
+    ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Package - 使用套件
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+| Package | version |
+| :--- | :--- |
+| react | v18..2.0 |
+| react-dom | v18.2.0 |
+| react-router-dom | v6.16.0 |
+| clsx | v2.0.0 |
+| axios | v1.5.1 |
+| gh-pages | v6.1.0|
+| recharts | v2.9.3 |
+| date-fns | v2.30.0 |
+| jwt-decode | v4.0.0 |
+| sweetalert2 | v11.7.32 |
 
-### Code Splitting
+## Creator - 創作者
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### iamcoolAlan

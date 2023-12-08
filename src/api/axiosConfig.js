@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const baseURL = "https://www.fitness-record.com/api";
+export const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:3001/api" : "https://www.fitness-record.com/api"
 
 export const axiosInstance = axios.create({ baseURL });
 

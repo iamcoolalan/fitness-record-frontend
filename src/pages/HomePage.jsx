@@ -525,25 +525,14 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      <RecordListMode
-        mode={mode}
-        records={records}
-        recordsCount={recordsCount}
-        selectedPage={selectedPage}
-        onRecordDetailClick={handleRecordDetailClick}
-        onSelectPageClick={handleSelectPageClick}
-        onOpenDeleteModalClick={handleOpenDeleteModal}
-      ></RecordListMode>
-      <FullCalender
+      {mode === 'FullCalender' && <FullCalender
         onClick={handleFullCalendarClick}
-        mode={mode}
         startDate={startDateForFullCalender}
         month={selectedDate.month}
         today={today}
         records={records}
-      ></FullCalender>
-      <WeekCalendar
-        mode={mode}
+      ></FullCalender>}
+      {mode === 'WeekCalendar' && <WeekCalendar
         startDayForDayMode={startDayForDayMode}
         selectedDate={selectedDate}
         records={records}
@@ -555,7 +544,16 @@ const HomePage = () => {
         onRecordDetailClick={handleRecordDetailClick}
         onSelectPageClick={handleSelectPageClick}
         onOpenDeleteModalClick={handleOpenDeleteModal}
-      ></WeekCalendar>
+      ></WeekCalendar>}
+       {mode === 'List' && <RecordListMode
+        mode={mode}
+        records={records}
+        recordsCount={recordsCount}
+        selectedPage={selectedPage}
+        onRecordDetailClick={handleRecordDetailClick}
+        onSelectPageClick={handleSelectPageClick}
+        onOpenDeleteModalClick={handleOpenDeleteModal}
+      ></RecordListMode>}
       {modalState.isOpen && (
         <Modal
           onCloseDeleteModalClick={handleCloseDeleteModal}

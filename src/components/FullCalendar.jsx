@@ -13,16 +13,12 @@ const countRecordByData = (data) => {
   return counts;
 };
 
-const FullCalender = ({ onClick, mode, startDate, month, today, records }) => {
-  const isNotFullCalendarMode = mode !== "FullCalender";
+const FullCalender = ({ onClick, startDate, month, today, records }) => {
   const counts = countRecordByData(records);
 
   return (
     <div
-      className={clsx(
-        "grid grid-cols-7 grid-rows-[5%_repeat(6,minmax(0,1fr))] h-[98%] border-t-4 border-l-4 border-gray-600",
-        { hidden: isNotFullCalendarMode }
-      )}
+      className="grid grid-cols-7 grid-rows-[5%_repeat(6,minmax(0,1fr))] h-[98%] border-t-4 border-l-4 border-gray-600"
     >
       <div className="col-span-7 row-span-1 border-b-4 border-gray-600 grid grid-cols-7">
         <div className="col-span-1 border-r-4 border-gray-600 flex justify-center items-center">

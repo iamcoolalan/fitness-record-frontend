@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = 'https://www.fitness-record.com/api'
+const baseURL = process.env.NODE_ENV === 'development' ? "http://localhost:3001/api" : "https://www.fitness-record.com/api"
 
 const login = async ({ email, password }) => {
   try {

@@ -7,7 +7,6 @@ import { useTab } from "../contexts/MainLayoutTabContext";
 
 
 const WeekCalendar = ({
-  mode,
   startDayForDayMode,
   selectedDate,
   records,
@@ -20,7 +19,6 @@ const WeekCalendar = ({
   onSelectPageClick,
   onOpenDeleteModalClick,
 }) => {
-  const isNotWeekCalendarMode = mode !== "WeekCalendar";
   const currentSelectDate = new Date(
     selectedDate.year,
     selectedDate.month - 1,
@@ -41,9 +39,7 @@ const WeekCalendar = ({
 
   return (
     <div
-      className={clsx("grid grid-cols-7 w-full h-full", {
-        hidden: isNotWeekCalendarMode,
-      })}
+      className="grid grid-cols-7 w-full h-full"
     >
       <div className="col-span-1 border-4 border-r-0 border-gray-600 rounded-l-lg grid grid-rows-[5%_repeat(7,minmax(0,1fr))_5%]">
         <button
