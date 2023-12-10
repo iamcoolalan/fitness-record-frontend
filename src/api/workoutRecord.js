@@ -55,7 +55,7 @@ export const createWorkoutRecord = async (recordName, date, workoutTime) => {
       workoutTime
     })
 
-    return res
+    return res.data
   } catch (error) {
     console.error("[Create Workout Record Failed]:", error);
     return error;
@@ -66,7 +66,7 @@ export const createWorkoutRecordDetail = async (workoutRecordId, detailList) => 
   try {
     const res = await axiosInstance.post(`${baseURL}/workout-record/${workoutRecordId}/details`, detailList)
 
-    return res
+    return res.data
   } catch (error) {
     console.error("[Create Workout Record Detail Failed]:", error);
     return error;
@@ -81,7 +81,7 @@ export const updateWorkoutRecord = async (workoutRecordId, updateData) => {
       workoutTime: updateData.workoutTime
     })
 
-    return res
+    return res.data
   } catch (error) {
     console.error("[Update Workout Record Failed]:", error);
     return error;
@@ -92,7 +92,7 @@ export const updateWorkoutDetail = async (workoutRecordId, updateDetails) => {
   try {
     const res = await axiosInstance.patch(`${baseURL}/workout-record/${workoutRecordId}/details`, updateDetails)
 
-    return res
+    return res.data
   } catch (error) {
     console.error("[Update Workout Record Detail Failed]:", error);
     return error;
@@ -103,7 +103,7 @@ export const deleteWorkoutDetail = async (workoutRecordId, deleteDetails) => {
   try {
     const res = await axiosInstance.delete(`${baseURL}/workout-record/${workoutRecordId}/details`, { data: deleteDetails })
 
-    return res
+    return res.data
   } catch (error) {
     console.error("[Delete Workout Record Detail Failed]:", error);
     return error;

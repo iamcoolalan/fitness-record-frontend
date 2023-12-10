@@ -134,6 +134,16 @@ const RecordPage = () => {
   }
 
   const handleCreateWorkoutRecordClick = async () => {
+    const showAlert = (isSuccess) => {
+      Swal.fire({
+        title: isSuccess ? "新增成功" : "新增失敗",
+        icon: isSuccess ? "success" : "error",
+        showConfirmButton: false,
+        timer: 1200,
+        position: "top",
+      });
+    };
+
     try {
       const { recordName, date, workoutTime } = recordInfo;
       const newWorkoutRecord = await createWorkoutRecord(
@@ -142,18 +152,24 @@ const RecordPage = () => {
         workoutTime
       );
 
-      const workoutRecordId = newWorkoutRecord.data.data?.id || null;
+      const workoutRecordId = newWorkoutRecord.data?.id || null;
 
-      if (workoutRecordId) {
-        await createWorkoutRecordDetail(workoutRecordId, tableList);
-
-        navigate(`/record/${workoutRecordId}`, {
-          state: { mode: "WeekCalendar", currentTab },
-        });
-      } else {
+      if (!workoutRecordId) {
         throw new Error("Can not create new record!");
       }
+
+      const createWorkoutRecordDetailResponse = await createWorkoutRecordDetail(
+        workoutRecordId,
+        tableList
+      );
+
+      showAlert(createWorkoutRecordDetailResponse.status === "success");
+
+      navigate(`/record/${workoutRecordId}`, {
+        state: { mode: "WeekCalendar", currentTab },
+      });
     } catch (error) {
+      showAlert(false);
       console.error("[Create Workout Record Failed]:", error);
     }
   };
@@ -170,13 +186,46 @@ const RecordPage = () => {
   };
 
   const handleEditWorkoutRecordClick = async () => {
-    await updateWorkoutRecord(editRecordId, recordInfo);
-    await updateWorkoutDetail(editRecordId, tableList);
-    await deleteWorkoutDetail(editRecordId, deleteTableList);
+    const updateWorkoutRecordResponse = await updateWorkoutRecord(
+      editRecordId,
+      recordInfo
+    );
+    const updateWorkoutDetailResponse = await updateWorkoutDetail(
+      editRecordId,
+      tableList
+    );
+    const deleteWorkoutDetailResponse = await deleteWorkoutDetail(
+      editRecordId,
+      deleteTableList
+    );
 
-    navigate(`/record/${editRecordId}`, {
-      state: { mode: "WeekCalendar", currentTab },
-    });
+    const isSuccess = [
+      updateWorkoutRecordResponse,
+      updateWorkoutDetailResponse,
+      deleteWorkoutDetailResponse,
+    ].every((res) => res.status === "success");
+
+    if (isSuccess) {
+      Swal.fire({
+        title: "修改成功",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1000,
+        position: "top",
+      });
+
+      navigate(`/record/${editRecordId}`, {
+        state: { mode: "WeekCalendar", currentTab },
+      });
+    } else {
+      Swal.fire({
+        title: "修改失敗",
+        icon: "error",
+        showConfirmButton: false,
+        timer: 1200,
+        position: "top",
+      });
+    }
   };
 
   const handleCreateBodydataRecordClick = async () => {

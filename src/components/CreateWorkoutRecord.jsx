@@ -34,7 +34,7 @@ const CreateWorkoutRecord = ({
           <CommonInput
             type="text"
             name="recordName"
-            value={isEdit ? recordInfo.recordName : "New Workout Record"}
+            value={recordInfo.recordName}
             inputTextSize="text-4xl text-center"
             onChange={onRecordInfoChange}
           ></CommonInput>
@@ -44,7 +44,7 @@ const CreateWorkoutRecord = ({
               <CommonInput
                 type="Date"
                 name="date"
-                value={isEdit ? toDateString(editDate) : today}
+                value={toDateString(editDate)}
                 inputClassName="h-full"
                 onChange={onRecordInfoChange}
               ></CommonInput>
@@ -54,7 +54,7 @@ const CreateWorkoutRecord = ({
               <CommonInput
                 type="number"
                 name="workoutTime"
-                value={isEdit ? recordInfo.workoutTime : 60}
+                value={recordInfo.workoutTime}
                 inputClassName="h-full w-full"
                 onChange={onRecordInfoChange}
               ></CommonInput>
