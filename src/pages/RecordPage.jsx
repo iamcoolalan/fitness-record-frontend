@@ -312,6 +312,24 @@ const RecordPage = () => {
       if (location.state.isEdit) {
         setIsEdit(location.state.isEdit);
       }
+
+      if (location.state.date) {
+        if (location.state.currentTab === 'Workout') {
+          setRecordInfo(prev => {
+            return {
+              ...prev,
+              date: location.state.date
+            }
+          })
+        } else {
+          setBodydata(prev => {
+            return {
+              ...prev,
+              date: location.state.date
+            }
+          })
+        }
+      }
     }
   }, []);
 

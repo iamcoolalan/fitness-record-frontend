@@ -34,7 +34,7 @@ const WeekCalendar = ({
   const navigate = useNavigate();
 
   const handleAddNewRecordNavigateClick = () => {
-    navigate("/record", { state: {currentTab} });
+    navigate("/record", { state: { currentTab, date: currentSelectDate } });
   };
 
   return (

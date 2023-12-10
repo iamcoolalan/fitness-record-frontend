@@ -10,7 +10,7 @@ import {
   RecordListMode,
   Modal,
 } from "../components";
-import { getMonthAbbreviation } from "../helpers/formatHelpers";
+import { getMonthAbbreviation, toDateString } from "../helpers/formatHelpers";
 import { useTab } from "../contexts/MainLayoutTabContext";
 
 import { getWorkoutRecords, deleteWorkoutRecord } from "../api/workoutRecord";
@@ -224,6 +224,7 @@ const HomePage = () => {
       month: date.getMonth() + 1,
       date: date.getDate(),
     });
+
     setMode("WeekCalendar");
   }
 
@@ -321,14 +322,14 @@ const HomePage = () => {
 
       if (mode === "WeekCalendar") {
         startDate = undefined;
-        endDate = new Date(
+        endDate = toDateString(new Date(
           selectedDate.year,
           selectedDate.month - 1,
           selectedDate.date
-        );
+        ));
       } else {
-        startDate = new Date(selectedDate.year, selectedDate.month - 1, 1);
-        endDate = new Date(selectedDate.year, selectedDate.month, 0);
+        startDate = toDateString(new Date(selectedDate.year, selectedDate.month - 1, 1));
+        endDate = toDateString(new Date(selectedDate.year, selectedDate.month, 0));
       }
 
       const getRecords = async () => {
