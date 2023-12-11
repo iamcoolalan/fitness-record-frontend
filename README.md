@@ -8,6 +8,11 @@
 
 - [Feature - 產品功能](#feature---產品功能)
 - [Demo - 功能展示](#demo-功能展示)
+  - [首頁](#首頁-回目錄)
+  - [紀錄](#紀錄-回目錄)
+  - [資料](#資料-回目錄)
+  - [登入系統](#登入系統-回目錄)
+  - [使用者功能](#使用者功能-回目錄)
 - [Installation- 安裝](#installation---安裝)
 - [Package - 使用套件](#package---使用套件)
 - [Creator - 創作者](#creator---創作者)
@@ -30,14 +35,48 @@
 
 ## Demo 功能展示
 
-### 登入系統
+### 首頁 [(回目錄)](#目錄)
+![Homepage](./README/homepage.gif)
+
+### 紀錄 [(回目錄)](#目錄)
+
+#### Record Detail
+![Detail](./README/record%20detail.gif)
+
+#### Create Record
+##### Workout
+![Workout](./README/create%20bodydata%20record.gif)
+##### Bodydata
+![Bodydata](./README/create%20workout%20record.gif)
+
+#### Update Record
+##### Workout
+![Workout](./README/update%20workout%20record.gif)
+##### Bodydata
+![Bodydata](./README/update%20bodydata%20record.gif)
+
+#### Delete Record
+![Delete](./README/delete%20record.gif)
+
+### 資料 [(回目錄)](#目錄)
+![Data](./README/data.gif)
+
+### 登入系統 [(回目錄)](#目錄)
+
+#### Login
 ![Login](./README/login.gif)
+#### Register
+![Register](./README/register.gif)
+#### Logout
+![Logout](./README/logout.gif)
 
-### 使用者功能
+### 使用者功能 [(回目錄)](#目錄)
 
-### 訓練紀錄
+#### Profile 
+![Profile](./README/profile.gif)
 
-### 身體數據紀錄
+#### Update Profile
+![Update Profile](./README/update%20profile.gif)
 
 ## Installation - 安裝
 
