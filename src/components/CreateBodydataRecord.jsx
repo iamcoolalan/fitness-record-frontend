@@ -5,7 +5,6 @@ import { CommonInput } from '../components'
 import { toDateString } from '../helpers/formatHelpers'
 
 const CreateBodydataRecord = ({
-  currentTab,
   today,
   isEdit,
   bodydata,
@@ -14,10 +13,9 @@ const CreateBodydataRecord = ({
   onEditRecordClick
 }) => {
   const recordDate = new Date(bodydata.date)
-  const isNotBodydataTab = currentTab !== 'Bodydata'
 
   return (
-    <div className={clsx('grid grid-rows-[17%_73%_10%] border-4 border-gray-600 rounded-lg h-full', { "hidden" : isNotBodydataTab })}>
+    <div className='grid grid-rows-[17%_73%_10%] border-4 border-gray-600 rounded-lg h-full'>
         <div className='row-span-1 flex flex-col justify-center items-center gap-1 border-b-4 border-gray-600'>
           <h1
             className='text-4xl'

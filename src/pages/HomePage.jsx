@@ -9,6 +9,7 @@ import {
   WeekCalendar,
   RecordListMode,
   Modal,
+  Loading
 } from "../components";
 import { getMonthAbbreviation, toDateString } from "../helpers/formatHelpers";
 import { useTab } from "../contexts/MainLayoutTabContext";
@@ -42,6 +43,7 @@ const HomePage = () => {
   const [isMonthEdit, setIsMonthEdit] = useState(false);
   const [modeUpdate, setModeUpdate] = useState(false);
   const [triggerGetRecords, setTriggerGetRecords] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const [records, setRecords] = useState([]);
   const [modalState, setModalState] = useState({
@@ -333,6 +335,8 @@ const HomePage = () => {
       }
 
       const getRecords = async () => {
+        setIsLoading(true)
+
         let result;
 
         if (currentTab === "Workout") {
@@ -353,6 +357,8 @@ const HomePage = () => {
 
         setRecordsCount(result.data.count);
         setRecords(result.data.rows);
+        setIsLoading(false)
+
       };
 
       getRecords();
@@ -526,14 +532,15 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      {mode === 'FullCalender' && <FullCalender
+      {isLoading && <Loading></Loading>}
+      {mode === 'FullCalender' && !isLoading && <FullCalender
         onClick={handleFullCalendarClick}
         startDate={startDateForFullCalender}
         month={selectedDate.month}
         today={today}
         records={records}
       ></FullCalender>}
-      {mode === 'WeekCalendar' && <WeekCalendar
+      {mode === 'WeekCalendar' && !isLoading && <WeekCalendar
         startDayForDayMode={startDayForDayMode}
         selectedDate={selectedDate}
         records={records}
@@ -546,7 +553,7 @@ const HomePage = () => {
         onSelectPageClick={handleSelectPageClick}
         onOpenDeleteModalClick={handleOpenDeleteModal}
       ></WeekCalendar>}
-       {mode === 'List' && <RecordListMode
+       {mode === 'List' && !isLoading && <RecordListMode
         mode={mode}
         records={records}
         recordsCount={recordsCount}

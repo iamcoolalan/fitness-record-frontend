@@ -314,20 +314,20 @@ const RecordPage = () => {
       }
 
       if (location.state.date) {
-        if (location.state.currentTab === 'Workout') {
-          setRecordInfo(prev => {
+        if (location.state.currentTab === "Workout") {
+          setRecordInfo((prev) => {
             return {
               ...prev,
-              date: location.state.date
-            }
-          })
+              date: location.state.date,
+            };
+          });
         } else {
-          setBodydata(prev => {
+          setBodydata((prev) => {
             return {
               ...prev,
-              date: location.state.date
-            }
-          })
+              date: location.state.date,
+            };
+          });
         }
       }
     }
@@ -381,31 +381,32 @@ const RecordPage = () => {
 
   return (
     <>
-      <CreateBodydataRecord
-        currentTab={currentTab}
-        today={today}
-        isEdit={isEdit}
-        bodydata={bodydata}
-        onBodydataChange={handleBodydataChange}
-        onCreateRecordClick={handleCreateBodydataRecordClick}
-        onEditRecordClick={handleEditBodydataRecordClick}
-      ></CreateBodydataRecord>
-      <CreateWorkoutRecord
-        currentTab={currentTab}
-        recordInfo={recordInfo}
-        today={today}
-        isEdit={isEdit}
-        tableList={tableList}
-        categoryPath={categoryPath}
-        categoryList={categoryList}
-        onRemoveWorkoutClick={handleRemoveWorkoutClick}
-        onRecordListChange={handleRecordListChange}
-        onCategoryPathClick={handleCategoryPathClick}
-        onCategoryListClick={handleCategoryListClick}
-        onCreateRecordClick={handleCreateWorkoutRecordClick}
-        onEditRecordClick={handleEditWorkoutRecordClick}
-        onRecordInfoChange={handleRecordInfoChange}
-      ></CreateWorkoutRecord>
+      {currentTab === "Bodydata" ? (
+        <CreateBodydataRecord
+          today={today}
+          isEdit={isEdit}
+          bodydata={bodydata}
+          onBodydataChange={handleBodydataChange}
+          onCreateRecordClick={handleCreateBodydataRecordClick}
+          onEditRecordClick={handleEditBodydataRecordClick}
+        ></CreateBodydataRecord>
+      ) : (
+        <CreateWorkoutRecord
+          recordInfo={recordInfo}
+          today={today}
+          isEdit={isEdit}
+          tableList={tableList}
+          categoryPath={categoryPath}
+          categoryList={categoryList}
+          onRemoveWorkoutClick={handleRemoveWorkoutClick}
+          onRecordListChange={handleRecordListChange}
+          onCategoryPathClick={handleCategoryPathClick}
+          onCategoryListClick={handleCategoryListClick}
+          onCreateRecordClick={handleCreateWorkoutRecordClick}
+          onEditRecordClick={handleEditWorkoutRecordClick}
+          onRecordInfoChange={handleRecordInfoChange}
+        ></CreateWorkoutRecord>
+      )}
     </>
   );
 };

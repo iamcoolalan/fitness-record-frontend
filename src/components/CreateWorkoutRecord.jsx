@@ -4,8 +4,6 @@ import { CommonInput } from '../components'
 import { toDateString } from '../helpers/formatHelpers';
 
 const CreateWorkoutRecord = ({
-  currentTab,
-  today,
   isEdit,
   recordInfo,
   tableList,
@@ -20,14 +18,10 @@ const CreateWorkoutRecord = ({
   onRecordInfoChange
 }) => {
   const editDate = new Date(recordInfo.date) 
-  const isNotWorkoutTab = currentTab !== "Workout";
 
   return (
     <div
-      className={clsx(
-        "grid grid-cols-12 border-4 border-gray-600 rounded-lg h-full",
-        { hidden: isNotWorkoutTab }
-      )}
+      className="grid grid-cols-12 border-4 border-gray-600 rounded-lg h-full"
     >
       <div className="col-span-8 grid grid-rows-[17%_73%_10%]">
         <div className="row-span-1 flex flex-col justify-center items-center gap-1 border-b-4 border-r-4 border-gray-600">

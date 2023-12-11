@@ -15,6 +15,7 @@ import CustomizeSelection from "./CustomizeSelection";
 import Modal from "./modal";
 import WorkoutRecordDetail from "./WorkRecordDetail";
 import BodydataRecordDetail from "./BodydataRecordDetail";
+import Loading from "./Loading";
 
 export {
   CommonInput,
@@ -33,5 +34,6 @@ export {
   CustomizeSelection,
   Modal,
   WorkoutRecordDetail,
-  BodydataRecordDetail
+  BodydataRecordDetail,
+  Loading
 };
