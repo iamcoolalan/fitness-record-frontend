@@ -5,10 +5,12 @@ import { DataPage, HomePage, LoginPage, SignUpPage, ProfilePage, RecordPage, Rec
 import { ProtectedMainLayout } from './containers'
 import { AuthProvider } from './contexts/AuthContext'
 
+const basename = process.env.PUBLIC_URL
+
 function App() {
   return (
     <div className='app'>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <AuthProvider>
           <Routes>
             <Route path='/record/:recordId' element={<ProtectedMainLayout><RecordDetailPage /></ProtectedMainLayout>} />
