@@ -4,6 +4,11 @@
 ## Deploy on Github Page
 [網頁連結](https://iamcoolalan.github.io/fitness-record-frontend/)
 
+##### *預設提供一組使用者可以做測試
+  | 使用者名稱 | email | 密碼 |
+  | :---: | :---: | :---: |
+  | user1 | user1@example.com | 123456789 |   
+
 ## 目錄
 
 - [Feature - 產品功能](#feature---產品功能)
