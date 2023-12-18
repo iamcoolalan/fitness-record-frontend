@@ -1,18 +1,11 @@
 import React from 'react'
-import clsx from 'clsx'
 
 import { CommonInput } from '../components'
 
-const TargetInfo = ({ currentTab, userTarget, lastRecord, onTargetChange }) => {
-  const isNotTargetTab = currentTab !== "Target";
+const TargetInfo = ({ userTarget, lastRecord, onTargetChange }) => {
 
   return (
-    <div
-      className={clsx(
-        "grid grid-cols-9 grid-rows-[5%_repeat(5,minmax(0,1fr))_13%] gap-4 h-full px-3",
-        { hidden: isNotTargetTab }
-      )}
-    >
+    <div className="grid grid-cols-9 grid-rows-[5%_repeat(5,minmax(0,1fr))_13%] gap-4 h-full px-3">
       <div className="col-span-9 row-span-1 grid grid-cols-9 gap-3">
         <div className="col-span-5 flex flex-col">
           <h1 className="text-xl text-slate-600 font-semibold">當前目標</h1>
@@ -22,7 +15,7 @@ const TargetInfo = ({ currentTab, userTarget, lastRecord, onTargetChange }) => {
         <div className="col-span-4 flex flex-col">
           <h1 className="text-xl text-slate-400 font-semibold">
             近一次數據測量
-            <span className='text-base'>  ({lastRecord.date})</span>
+            <span className="text-base"> ({lastRecord.date})</span>
           </h1>
           <hr className="border-t-2 border-slate-400" />
           <hr className="border-t-4 border-slate-400 mt-1" />

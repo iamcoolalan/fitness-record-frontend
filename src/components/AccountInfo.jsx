@@ -1,24 +1,16 @@
-import clsx from 'clsx'
-
 import { CommonInput, DateInput, RadioInput } from '../components' 
 
 import { toDateString } from '../helpers/formatHelpers'
 
-const AccountInfo = ({ currentTab, userInfo, onInfoChange }) => {
+const AccountInfo = ({ userInfo, isTestAccount, onInfoChange }) => {
   const userBirthday = new Date(userInfo.birthday);
-  const isNotAccountTab = currentTab !== "Account";
   const genderOptions = [
     { name: "Male", value: "male" },
     { name: "Female", value: "female" },
   ];
 
   return (
-    <div
-      className={clsx(
-        "grid grid-rows-[repeat(5,minmax(0,1fr))] grid-cols-2 gap-3 px-3 w-full",
-        { hidden: isNotAccountTab }
-      )}
-    >
+    <div className="grid grid-rows-[repeat(5,minmax(0,1fr))] grid-cols-2 gap-3 px-3 w-full">
       <CommonInput
         className="row-span-1 col-span-1"
         label="暱稱"
@@ -36,6 +28,8 @@ const AccountInfo = ({ currentTab, userInfo, onInfoChange }) => {
         type="email"
         value={userInfo.email}
         onChange={onInfoChange}
+        disabled={isTestAccount}
+        inputClassName={isTestAccount ? "cursor-not-allowed" : ""}
       ></CommonInput>
       <DateInput
         label="生日"
@@ -50,6 +44,8 @@ const AccountInfo = ({ currentTab, userInfo, onInfoChange }) => {
         placeholder="請輸入密碼"
         type="password"
         onChange={onInfoChange}
+        disabled={isTestAccount}
+        inputClassName={isTestAccount ? "cursor-not-allowed" : ""}
       ></CommonInput>
       <div className="row-span-1 col-span-1 flex flex-col gap-1">
         <h3 className="text-lg">日常活動水平</h3>
@@ -84,6 +80,8 @@ const AccountInfo = ({ currentTab, userInfo, onInfoChange }) => {
         type="password"
         className="row-span-1 col-span-1"
         onChange={onInfoChange}
+        disabled={isTestAccount}
+        inputClassName={isTestAccount ? "cursor-not-allowed" : ""}
       ></CommonInput>
       <RadioInput
         title="性別"

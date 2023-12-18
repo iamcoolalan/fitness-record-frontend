@@ -16,6 +16,8 @@ const ProfilePage = () => {
   const { currentTab } = useTab()
   const title = currentTab === 'Account'? 'Personal Detail' : 'Target'
 
+  const [isTestAccount, setIsTestAccount] = useState(false)
+
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
@@ -44,20 +46,27 @@ const ProfilePage = () => {
     const { name, value } = e.target;
     
     if (currentTab === "Account") {
-      setUserInfo((prev) => {
-        return {
-          ...prev,
-          [name]: value,
-        };
-      });
-    } else {
-      setUserTarget((prev) => {
-        return {
-          ...prev,
-          [name]: Number(value),
-        };
-      });
-    }
+      if (
+        isTestAccount &&
+        (name === "email" || name === "password" || name === "passwordCheck")
+      ) {
+        return Swal.fire({
+          title: "警告",
+          icon: "error",
+          showConfirmButton: false,
+          text: "不可更改測試帳號 email 或 密碼",
+          timer: 1200,
+          position: "top",
+        });
+      } else {
+        setUserInfo((prev) => {
+          return {
+            ...prev,
+            [name]: value,
+          };
+        });
+      }
+    } 
   };
 
   const handleUpdateClick = async () => {
@@ -106,6 +115,10 @@ const ProfilePage = () => {
       async function fetchUserInfo() {
         const userInfo = await getUserInfo();
 
+        setIsTestAccount(
+          userInfo.email === "user1@example.com"
+        );
+
         setUserInfo(prev => {
           return {
             ...prev,
@@ -144,23 +157,30 @@ const ProfilePage = () => {
   return (
     <div className="flex flex-col gap-2 h-full w-full relative">
       <div className="flex flex-col gap-2 px-3 pt-2">
-        <h1 className="text-3xl">{title}</h1>
+        <h1 className="text-3xl">{title}{isTestAccount && <span className="text-lg text-slate-500">(測試帳號不提供更改email及密碼)</span>}</h1>
         <hr className="border-t-4 border-zinc-700 w-full" />
       </div>
-      <TargetInfo
-        currentTab={currentTab}
-        userTarget={userTarget}
-        lastRecord={lastBodydataRecord}
-        onTargetChange={handleInputChange}
-      ></TargetInfo>
-      <AccountInfo
-        currentTab={currentTab}
-        userInfo={userInfo}
-        onInfoChange={handleInputChange}
-      ></AccountInfo>
+
+      {currentTab === "Account" ? (
+        <AccountInfo
+          isTestAccount={isTestAccount}
+          userInfo={userInfo}
+          onInfoChange={handleInputChange}
+        ></AccountInfo>
+      ) : (
+        <TargetInfo
+          userTarget={userTarget}
+          lastRecord={lastBodydataRecord}
+          onTargetChange={handleInputChange}
+        ></TargetInfo>
+      )}
+
       <div className="absolute bottom-0 w-full">
         <div className="flex flex-row justify-center items-center">
-          <button className="border-4 border-zinc-700 rounded-lg text-xl p-2 w-[25%] hover:bg-yellow-200" onClick={handleUpdateClick}>
+          <button
+            className="border-4 border-zinc-700 rounded-lg text-xl p-2 w-[25%] hover:bg-yellow-200"
+            onClick={handleUpdateClick}
+          >
             Update
           </button>
         </div>
