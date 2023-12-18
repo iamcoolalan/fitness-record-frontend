@@ -1,7 +1,7 @@
 import clsx from "clsx";
 
 import { formatWorkoutTime } from "../helpers/formatHelpers";
-import getPagination from "../helpers/pagination-helper";
+import getPagination from "../helpers/paginationHelper";
 import { useNavigate } from "react-router-dom";
 import { useTab } from "../contexts/MainLayoutTabContext";
 
@@ -19,17 +19,15 @@ const RecordListMode = ({
     recordsCount
   );
 
-  const { currentTab } = useTab()
+  const { currentTab } = useTab();
   const navigate = useNavigate();
 
   const handleAddNewRecordNavigateClick = () => {
-    navigate("/record", { state: {currentTab} });
+    navigate("/record", { state: { currentTab } });
   };
 
   return (
-    <div
-      className="grid grid-rows-[90%_10%] border-4 border-gray-600 rounded-lg h-full"
-    >
+    <div className="grid grid-rows-[90%_10%] border-4 border-gray-600 rounded-lg h-full">
       <div className="row-span-1 grid grid-rows-5 gap-2 border-b-4 border-gray-600 p-1">
         {records.map((record, index) => {
           return (

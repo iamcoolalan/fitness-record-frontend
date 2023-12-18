@@ -6,6 +6,8 @@ import { CreateWorkoutRecord, CreateBodydataRecord } from "../components";
 import { toDateString } from "../helpers/formatHelpers";
 import { useTab } from "../contexts/MainLayoutTabContext";
 
+import { countTotalTrainingVolume } from "../helpers/recordHelper";
+
 import {
   createWorkoutRecord,
   getWorkoutCategories,
@@ -31,6 +33,7 @@ const initialRecordInfo = {
   recordName: "New Workout Record",
   date: new Date(),
   workoutTime: 0,
+  trainingVolume: 0,
 };
 
 const RecordPage = () => {
@@ -378,6 +381,17 @@ const RecordPage = () => {
       getBodyRecord();
     }
   }, [isEdit]);
+
+  useEffect(() => {
+    const trainingVolume = countTotalTrainingVolume(tableList);
+
+    setRecordInfo(prev => {
+      return {
+        ...prev,
+        trainingVolume,
+      };
+    })
+  }, [tableList])
 
   return (
     <>

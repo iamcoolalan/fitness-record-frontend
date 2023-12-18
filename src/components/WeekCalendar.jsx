@@ -1,10 +1,13 @@
 import clsx from "clsx";
 
-import { toDateString, getDayOfWeek, formatWorkoutTime } from "../helpers/formatHelpers";
-import getPagination from "../helpers/pagination-helper";
+import {
+  toDateString,
+  getDayOfWeek,
+  formatWorkoutTime,
+} from "../helpers/formatHelpers";
+import getPagination from "../helpers/paginationHelper";
 import { useNavigate } from "react-router-dom";
 import { useTab } from "../contexts/MainLayoutTabContext";
-
 
 const WeekCalendar = ({
   startDayForDayMode,
@@ -30,7 +33,7 @@ const WeekCalendar = ({
     recordsCount
   );
 
-  const { currentTab } = useTab()
+  const { currentTab } = useTab();
   const navigate = useNavigate();
 
   const handleAddNewRecordNavigateClick = () => {
@@ -38,9 +41,7 @@ const WeekCalendar = ({
   };
 
   return (
-    <div
-      className="grid grid-cols-7 w-full h-full"
-    >
+    <div className="grid grid-cols-7 w-full h-full">
       <div className="col-span-1 border-4 border-r-0 border-gray-600 rounded-l-lg grid grid-rows-[5%_repeat(7,minmax(0,1fr))_5%]">
         <button
           className="row-span-1 border-r-4 border-b-2 border-gray-600 rounded-tl bg-orange-300"
@@ -98,7 +99,9 @@ const WeekCalendar = ({
                   >
                     <h2 className="text-2xl">{record.name || "BodyRecord"}</h2>
                     <h2 className="text-2xl">
-                      {record.workoutTime ? formatWorkoutTime(record.workoutTime) : ''}
+                      {record.workoutTime
+                        ? formatWorkoutTime(record.workoutTime)
+                        : ""}
                     </h2>
                   </div>
                   <div
