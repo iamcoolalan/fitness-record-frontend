@@ -7,6 +7,7 @@ import { MonthSelection, QuarterSelection, CustomizeSelection } from '../compone
 import { getQuarter } from '../helpers/formatHelpers.js'
 
 import { getBodydataRecords } from '../api/bodydataRecord.js'
+import { getWorkoutRecords } from '../api/workoutRecord.js'
 
 const defaultDataTab = {
   Bodydata: [
@@ -17,7 +18,7 @@ const defaultDataTab = {
     { label: '內臟脂肪等級', value: 'visceralFatLevel' }
   ],
   Workout: [
-    { label: '訓練量', value: 'workoutVolume' },
+    { label: '訓練量', value: 'trainingVolume' },
   ]
 }
 
@@ -131,13 +132,19 @@ const DataPage = () => {
 
   useEffect(() => {
     async function getRecords() {
-      const result = await getBodydataRecords(0, 0, timeRange.end, timeRange.start)
+      let result
+
+      if (currentTab === 'Workout') {
+        result = await getWorkoutRecords(0, 0, timeRange.end, timeRange.start)
+      } else {
+        result = await getBodydataRecords(0, 0, timeRange.end, timeRange.start)
+      }
 
       setData(result.data.rows);
     }
 
     getRecords()
-  }, [timeRange])
+  }, [timeRange, currentTab])
 
   return (
     <div className="grid grid-cols-12 grid-rows-[8%_77%_12%] h-full w-full gap-3 p-3">

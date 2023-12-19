@@ -12,6 +12,9 @@ const WorkoutRecordDetail = ({ recordInfo, recordDetails }) => {
           <p className="text-lg text-gray-500">
             Time:{formatWorkoutTime(recordInfo && recordInfo.time)}
           </p>
+           <p className="text-lg text-gray-500">
+            Training Volume:{recordInfo.trainingVolume}
+          </p>
         </div>
       </div>
       <div className="row-span-1 grid grid-cols-2 grid-rows-4 gap-2 border-b-4 border-gray-600 p-1">

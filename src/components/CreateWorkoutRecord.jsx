@@ -23,7 +23,7 @@ const CreateWorkoutRecord = ({
     <div
       className="grid grid-cols-12 border-4 border-gray-600 rounded-lg h-full"
     >
-      <div className="col-span-8 grid grid-rows-[17%_73%_10%]">
+      <div className="col-span-8 grid grid-rows-[17%_68%_5%_10%]">
         <div className="row-span-1 flex flex-col justify-center items-center gap-1 border-b-4 border-r-4 border-gray-600">
           <CommonInput
             type="text"
@@ -55,7 +55,7 @@ const CreateWorkoutRecord = ({
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-12 row-span-1 border-b-4 border-r-4 border-gray-600 p-1 overflow-y-scroll">
+        <div className="grid grid-cols-12 row-span-1 border-r-4 border-gray-600 p-1 overflow-y-scroll">
           <table className="col-span-12 table-auto border-separate border border-slate-400 text-center">
             <thead>
               <tr>
@@ -120,6 +120,12 @@ const CreateWorkoutRecord = ({
               })}
             </tbody>
           </table>
+        </div>
+        <div className='row-span-1 flex flex-row justify-end items-end p-2 border-b-4 border-r-4 border-gray-600'>
+            <h1 className='text-2xl font-semibold text-gray-600'>
+              Total Training Volume: 
+            <span className='text-orange-300'> {recordInfo.trainingVolume} kg</span>
+            </h1>
         </div>
         <div className="row-span-1 flex flex-row justify-center items-center border-r-4 border-gray-600 w-full">
           <button

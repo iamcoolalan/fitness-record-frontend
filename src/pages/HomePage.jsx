@@ -33,6 +33,7 @@ const HomePage = () => {
 
   const [mode, setMode] = useState("FullCalender");
   const [recordsCount, setRecordsCount] = useState(0);
+  const [trainingVolume, setTrainingVolume] = useState(0)
   const [selectedPage, setSelectedPage] = useState(1);
   const [startDateForFullCalender, setForFullCalender] = useState(new Date());
   const [startDayForDayMode, setStartDayForDayMode] = useState(
@@ -355,6 +356,7 @@ const HomePage = () => {
           );
         }
 
+        setTrainingVolume(result.data.totalTrainingVolume)
         setRecordsCount(result.data.count);
         setRecords(result.data.rows);
         setIsLoading(false)
@@ -420,7 +422,7 @@ const HomePage = () => {
   return (
     <div className="w-full h-full flex flex-col gap-1" id="homepage">
       <div className="grid grid-cols-7">
-        <div className="col-span-4">
+        <div className="col-span-3">
           <div className={clsx("flex gap-2", { hidden: isYearEdit })}>
             <button
               className="hover:bg-yellow-200"
@@ -494,7 +496,15 @@ const HomePage = () => {
             />
           </div>
         </div>
-        <div className="col-span-3 flex flex-col justify-end items-end">
+        <div className="col-span-4 flex flex-col justify-between items-end">
+          <div className="flex flex-row justify-end items-start w-full h-full pt-1 pr-1">
+            {currentTab === 'Workout' && (
+              <h1 className="text-4xl">
+              <span className="text-2xl">Training Volume: </span>
+              {trainingVolume ? trainingVolume : 0}
+              <span className="text-xl"> kg</span></h1>
+            )}
+          </div>
           <div className="flex flex-row w-full border-2 border-zinc-800 rounded-lg">
             <button
               className={clsx(

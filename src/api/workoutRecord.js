@@ -47,12 +47,13 @@ export const getWorkoutCategories = async () => {
   }
 }
 
-export const createWorkoutRecord = async (recordName, date, workoutTime) => {
+export const createWorkoutRecord = async (recordName, date, workoutTime, trainingVolume) => {
   try {
     const res = await axiosInstance.post(`${baseURL}/workout-record`, {
       name: recordName,
       date,
-      workoutTime
+      workoutTime,
+      trainingVolume
     })
 
     return res.data

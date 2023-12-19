@@ -14,7 +14,8 @@ const RecordDetailPage = () => {
   const [recordInfo, setRecordInfo] = useState({
     title: '',
     date: '',
-    workoutTime: ''
+    workoutTime: '',
+    trainingVolume: 0
   });
   
   const { currentTab, setCurrentTab, setIsDisable } = useTab();
@@ -64,6 +65,7 @@ const RecordDetailPage = () => {
           title: result.data.name,
           date: result.data.date,
           time: result.data.workoutTime,
+          trainingVolume: result.data.trainingVolume
         });
       }
 

@@ -148,11 +148,13 @@ const RecordPage = () => {
     };
 
     try {
-      const { recordName, date, workoutTime } = recordInfo;
+      const { recordName, date, workoutTime, trainingVolume } = recordInfo;
+  
       const newWorkoutRecord = await createWorkoutRecord(
         recordName,
         date,
-        workoutTime
+        workoutTime,
+        trainingVolume
       );
 
       const workoutRecordId = newWorkoutRecord.data?.id || null;
