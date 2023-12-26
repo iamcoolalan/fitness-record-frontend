@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/fitness-record-frontend/static/css/main.807a7a2a.css",
-    "main.js": "/fitness-record-frontend/static/js/main.7499e817.js",
+    "main.js": "/fitness-record-frontend/static/js/main.9bf88a41.js",
     "static/js/787.220add34.chunk.js": "/fitness-record-frontend/static/js/787.220add34.chunk.js",
     "index.html": "/fitness-record-frontend/index.html",
     "main.807a7a2a.css.map": "/fitness-record-frontend/static/css/main.807a7a2a.css.map",
-    "main.7499e817.js.map": "/fitness-record-frontend/static/js/main.7499e817.js.map",
+    "main.9bf88a41.js.map": "/fitness-record-frontend/static/js/main.9bf88a41.js.map",
     "787.220add34.chunk.js.map": "/fitness-record-frontend/static/js/787.220add34.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.807a7a2a.css",
-    "static/js/main.7499e817.js"
+    "static/js/main.9bf88a41.js"
   ]
 }
