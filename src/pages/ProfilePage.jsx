@@ -66,7 +66,14 @@ const ProfilePage = () => {
           };
         });
       }
-    } 
+    } else {
+      setUserTarget((prev) => {
+        return {
+          ...prev,
+          [name]: Number(value),
+        };
+      });
+    }
   };
 
   const handleUpdateClick = async () => {
